@@ -15,6 +15,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
+import { EditProject } from "./edit-modal"
+import { useState } from "react"
+
+
 
 interface Project {
   id: string
@@ -28,6 +32,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const [editModal, setEditModal] = useState<any>(false)
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -45,7 +50,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuItem>Edit project</DropdownMenuItem>
+             
+                <DropdownMenuItem onClick={() => setEditModal(true)}>Edit project</DropdownMenuItem>
+             
             <DropdownMenuItem className="text-destructive">
               Delete project
             </DropdownMenuItem>
@@ -62,6 +69,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </Badge>
         </div>
       </CardContent>
+
+      {editModal && <EditProject projectId={project.id} />}
     </Card>
   )
 }
