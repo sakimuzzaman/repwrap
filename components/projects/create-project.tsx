@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import toast from 'react-hot-toast';
@@ -52,8 +50,6 @@ export function CreateProject({ children }: CreateProjectProps) {
       if (response?.data?.code == 201) {
         toast.success(response.data.message);
         setOpen(false)
-        // router.push('project/create');
-        // Redirect to login page or handle success
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -95,17 +91,6 @@ export function CreateProject({ children }: CreateProjectProps) {
               />
               {errors.description && <p className="text-sm text-red-600">{errors.description.message}</p>}
           </div>
-          {/* <div className="grid gap-2">
-            <Label htmlFor="description">Description</Label>
-           
-             <Textarea
-                id="description"
-                placeholder="Enter project description"
-                className="resize-none"
-                {...register("name", { required: "Name is required" })}
-              />
-              {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
-          </div> */}
         </div>
         
         <DialogFooter>
