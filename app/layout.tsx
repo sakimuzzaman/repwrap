@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode
   }) {
   const pathname = usePathname();
-  let pages = ['/login', '/signup', '/forgot-password', '/onboarding', '/onboarding2'];
+  let pages = ['/login', '/signup', '/forgot-password', '/workspace-create', '/project-create', '/project-invite'];
  
   let isAuthPage = pages.includes(pathname);;
 
