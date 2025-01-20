@@ -75,6 +75,12 @@ const routes = [
     color: "text-pink-500",
   },
   {
+    label: "Leave Type",
+    icon: Calendar,
+    href: "/leave-type",
+    color: "text-pink-500",
+  },
+  {
     label: "Employee Leave Application",
     icon: Calendar,
     href: "/employee-leaveapplication",
