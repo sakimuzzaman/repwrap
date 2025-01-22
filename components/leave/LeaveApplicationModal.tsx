@@ -31,16 +31,18 @@ interface ComponentProps {
 interface FormData {
   leave_type_id: string;
   reason: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   certificate: File | null;
 }
 
 export function LeaveApplicationModal({ children }: ComponentProps) {
   const [open, setOpen] = useState(false);
   const [leaveTypes, setLeaveTypes] = useState([]);
-  const [fromDate, setFromDate] = useState<Date | null>(null);
-  const [toDate, setToDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<any>(null);
+  const [endDate, setEndDate] = useState<any>(null);
+  const [certificate, setCertificate] = useState<any>(null);
+  
 
   const {
     register,
@@ -78,11 +80,11 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
       const formData = new FormData();
       formData.append("leave_type_id", data.leave_type_id);
       formData.append("reason", data.reason);
-      formData.append("start_date", data.start_date.toISOString());
-      formData.append("end_date", data.end_date.toISOString());
-      if (data.certificate) {
-        formData.append("certificate", data.certificate);
-      }
+      formData.append("start_date", startDate);
+      formData.append("end_date", endDate);
+      
+      formData.append("certificate", certificate);
+    
 
       const response = await axiosInstance.post("/leave/application/apply", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -136,21 +138,21 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !fromDate && "text-muted-foreground"
+                      !startDate && "text-muted-foreground"
                     )}
                   >
                     <CalendarIcon />
-                    {fromDate ? format(fromDate, "PPP") : "From Date"}
+                    {startDate ? format(startDate, "PPP") : "From Date"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
-                    selected={fromDate || undefined}
+                    selected={startDate || undefined}
                     onSelect={(date: any) => {
                         if (date) {
-                          const formattedDate = format(date, "yyyy-MM-dd"); // Format the date to 'YYYY-MM-DD'
-                          setFromDate(date);
+                         
+                          setStartDate(format(date, "yyyy-MM-dd"));
                            // Save the formatted date to the form
                         }
                       }}
@@ -165,21 +167,21 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !toDate && "text-muted-foreground"
+                      !endDate && "text-muted-foreground"
                     )}
                   >
                     <CalendarIcon />
-                    {toDate ? format(toDate, "PPP") : "To Date"}
+                    {endDate ? format(endDate, "PPP") : "To Date"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
-                    selected={toDate || undefined}
+                    selected={endDate || undefined}
                     onSelect={(date: any) => {
                         if (date) {
-                          const formattedDate = format(date, "yyyy-MM-dd"); // Format the date to 'YYYY-MM-DD'
-                          setToDate(date);
+                          // Format the date to 'YYYY-MM-DD'
+                          setEndDate(format(date, "yyyy-MM-dd"));
                           // Save the formatted date to the form
                         }
                       }}
@@ -208,7 +210,7 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
                 type="file"
                 {...register("certificate")}
                 onChange={(e) =>
-                  setValue("certificate", e.target.files?.[0] || null)
+                  setCertificate(e.target.files?.[0] || null)
                 }
               />
             </div>
