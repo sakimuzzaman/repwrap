@@ -38,6 +38,13 @@ const routes = [
     color: "text-sky-500",
   },
   {
+    label: "Task",
+    icon: BarChart2,
+    href: "/task",
+    tooltip: "Dashboard",
+    color: "text-sky-500",
+  },
+  {
     label: "EmployeeDashboard",
     icon: BarChart2,
     href: "/employee-dashboard",
