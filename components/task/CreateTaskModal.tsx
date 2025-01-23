@@ -141,7 +141,7 @@ export function CreateTaskModal({ children }: FromProps) {
         </div>
         
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+          <Button type="button" variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
          

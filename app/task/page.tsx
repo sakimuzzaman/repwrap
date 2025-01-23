@@ -1,7 +1,6 @@
 import { Suspense } from "react"
 import { Plus } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { ProjectList } from "@/components/projects/project-list"
 
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardShell } from "@/components/dashboard-shell"
@@ -9,6 +8,7 @@ import { DashboardShell } from "@/components/dashboard-shell"
 
 import { TaskLoading } from "@/components/task/TaskLoading"
 import  {CreateTaskModal}  from "@/components/task/CreateTaskModal"
+import TaskBoard from "@/components/task/TaskBoard"
 //import { TaskList } from "@/components/task/TaskList"
 
 export default function TaskPage() {
@@ -25,6 +25,7 @@ export default function TaskPage() {
       <Suspense fallback={<TaskLoading />}>
         
       </Suspense>
+      <TaskBoard />
     </DashboardShell>
   )
 }
