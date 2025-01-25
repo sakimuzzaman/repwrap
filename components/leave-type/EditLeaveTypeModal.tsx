@@ -1,18 +1,10 @@
-
-
-
-
-
-
-
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -25,22 +17,29 @@ import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
-interface LeaveTypeProps {
-  children: React.ReactNode;
+interface EditLeaveTypeProps {
+  leaveId: Number;
+  
 }
 
 interface FormData {
   type: string;
-  status: string;
   unit: string;
   hours: string;
+  status: string;
   days: string;
 }
 
-export function LeaveTypeModal({ children }: LeaveTypeProps) {
-  const [open, setOpen] = useState(false);
+export function  EditLeaveTypeModal({ leaveId }: EditLeaveTypeProps) {
+  const [open, setOpen] = useState(true);
   const [unit, setUnit] = useState("day");
   const [status, setStatus] = useState("active");
+  const [initialData, setInitialData] = useState<FormData | null>(null);
+ 
+
+  console.log(unit);
+  
+
 
   const leaveTypes = [
     "sick",
@@ -56,27 +55,56 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
+    setValue,
   } = useForm<FormData>();
 
   const router = useRouter();
 
+  // Fetch leave data for the specific leaveId
+  useEffect(() => {
+
+    setOpen(true);
+
+    const fetchLeaveType = async () => {
+      try {
+        const response = await axiosInstance.get(`/leaves/${leaveId}`);
+        if (response?.data) {
+          setInitialData(response.data.data);
+          setUnit(response.data.data.duration_unit);
+          setStatus(response.data.data.status);
+          // Prepopulate form fields with fetched data
+          setValue("type", response.data.data.type);
+          setValue("days", response.data.data.days);
+          setValue("hours", response.data.data.hours);
+          setValue("status", response.data.data.status);
+
+          //console.log(response.data.data.unit, "asdsada");
+        
+        }
+      } catch (error: any) {
+        toast.error("Failed to fetch leave data");
+      }
+    };
+
+    fetchLeaveType();
+  }, [leaveId, setValue]);
+
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await axiosInstance.post("/leave/create", {
+      const response = await axiosInstance.post(`/leaves/${leaveId}/update`, {
         type: data.type,
-        duration_unit: data.unit,
         status: data.status,
-        hours:data.hours,
-        days:data.days,
-
+        duration_unit: data.unit,
+        days: data.days,
+        hours: data.hours,
+        
       });
 
-      if (response?.data?.code === 201) {
+      if (response?.data?.code === 200) {
         toast.success(response.data.message);
         setOpen(false);
-        // router.refresh(); // Refresh the page or data after successful creation
+        // router.refresh(); // Refresh the page or data after successful update
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -85,10 +113,10 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      
       <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
-          <DialogTitle>Create New Leave Type</DialogTitle>
+          <DialogTitle>Edit Leave Type</DialogTitle>
           <hr />
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -102,7 +130,7 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
               >
                 {leaveTypes.map((type) => (
                   <option key={type} value={type}>
-                     {type.charAt(0).toUpperCase() + type.slice(1)}
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
                   </option>
                 ))}
               </select>
@@ -165,8 +193,6 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
             </div>
           )}
 
-          
-
           {/* Status Dropdown */}
           <div className="grid gap-2">
             <Label htmlFor="status">Status</Label>
@@ -186,7 +212,7 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
 
           <DialogFooter>
             <div className="flex justify-end gap-4">
-              <Button variant="outline" onClick={() => setOpen(false)}>
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button
@@ -194,7 +220,7 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Creating..." : "Create"}
+                {isSubmitting ? "Updating..." : "Update"}
               </Button>
             </div>
           </DialogFooter>
