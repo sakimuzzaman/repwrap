@@ -26,7 +26,9 @@ export default function OnboardingPage() {
 
       if (response?.data?.code == 201) {
         toast.success(response.data.message);
-       
+        localStorage.setItem('project_id', response.data.data.id)
+        router.push('/project-invite');
+
         // Redirect to login page or handle success
       }
     } catch (error: any) {
@@ -49,6 +51,7 @@ export default function OnboardingPage() {
             <h2 className="text-xl font-medium text-center">
               What Would You Like To Name Your Project?
             </h2>
+          
             <Input
               placeholder="Enter your project name"
               className="text-center"

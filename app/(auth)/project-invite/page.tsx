@@ -39,9 +39,10 @@ export default function OnboardingPage() {
   const onSubmit = async (data: any) => {
     try {
       const emails = data.emails.split(",").map((email: any) => email.trim());
+      const project_id = localStorage.getItem("project_id");
 
       // API request to send invites
-      const response = await axiosInstance.post("/team/invite", { emails });
+      const response = await axiosInstance.post("/project/invite", { emails: emails, project_id: project_id });
       console.log("Invites sent successfully:", response.data);
 
       // Reset the form on success

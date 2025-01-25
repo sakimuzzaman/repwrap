@@ -26,7 +26,7 @@ export default function OnboardingPage() {
 
       if (response?.data?.code == 201) {
         toast.success(response.data.message);
-        router.push('/projects');
+        router.push('/project-create');
         // Redirect to login page or handle success
       }
     } catch (error: any) {
