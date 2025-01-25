@@ -19,20 +19,23 @@ import { Label } from "@/components/ui/label"
 import { useForm } from "react-hook-form";
 import { Textarea } from "../ui/textarea"
 
-// interface CardProps {
-//   children: React.ReactNode
-// }
+interface CardProps {
+ // children: React.ReactNode
+ cardId: string;
+}
 
-// interface FormData {
-//   project_id: Number;
-//   title: string;
-//   description: string;
-//   point: Number;
-// }
+interface FormData {
+  card_id: Number;
+  title: string;
+  description: string;
+  point: Number;
+}
 
 
-export function CardModal({onClose}: { onClose: any }) {
-  const [open, setOpen] = useState(false)
+export function CardModal({ cardId, isOpenCardModalManage }: any) {
+  const [open, setOpen] = useState(true)
+
+  
 
   //const [projects, setProjects] = useState([]);
 
@@ -78,6 +81,16 @@ export function CardModal({onClose}: { onClose: any }) {
 //       toast.error(error.response?.data?.message || "Something went wrong!");
 //     }
 //   };
+
+useEffect(() => {
+  console.log("tru or fls");
+
+  if(!open){
+    
+    isOpenCardModalManage()
+  }
+
+}, [open])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -134,13 +147,13 @@ export function CardModal({onClose}: { onClose: any }) {
         </div>
         
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => {setOpen(false); onClose();}}>
+          <Button type="button" variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-{/*          
+         
           <Button className="w-1/5"  type="submit">
-              {isSubmitting ? "Create project..." : "Create Task"}
-            </Button> */}
+              {isSubmitting ? "Create Task..." : "Create Task"}
+            </Button>
         
         </DialogFooter>
        
@@ -156,59 +169,4 @@ export function CardModal({onClose}: { onClose: any }) {
 
 
 
-
-// "use client";
-
-// import { Button } from "@/components/ui/button";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogFooter,
-//   DialogHeader,
-//   DialogTitle,
-// } from "@/components/ui/dialog";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import { Textarea } from "../ui/textarea";
-
-// interface CardModalProps {
-//   onClose: () => void;
-//   open: boolean;
-// }
-
-// export function CardModal({ onClose, open }: CardModalProps) {
-//   return (
-//     <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}>
-//       <DialogContent className="sm:max-w-[925px] sm:max-h-[450px]">
-//         <DialogHeader>
-//           <DialogTitle>
-//             <div>
-//               <Label htmlFor="project_type_id">Projects</Label>
-//               <select id="project_type_id" className="border rounded p-2 w-full">
-//                 <option value="">Select Project</option>
-//               </select>
-//             </div>
-//           </DialogTitle>
-//         </DialogHeader>
-
-//         <div className="grid gap-4 py-4">
-//           <div className="grid gap-2">
-//             <Label htmlFor="name">Title</Label>
-//             <Input type="text" placeholder="Enter your project name" />
-//           </div>
-//           <div className="grid gap-2">
-//             <Label htmlFor="description">Task Description</Label>
-//             <Textarea placeholder="Enter your task description" />
-//           </div>
-//         </div>
-
-//         <DialogFooter>
-//           <Button type="button" variant="outline" onClick={onClose}>
-//             Cancel
-//           </Button>
-//         </DialogFooter>
-//       </DialogContent>
-//     </Dialog>
-//   );
-// }
 
