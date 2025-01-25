@@ -14,7 +14,7 @@ export default function ProjectsPage() {
         <CreateProject>
           <Button>
             <Plus className="mr-2 h-4 w-4" />
-            Create Project
+             Create Project
           </Button>
         </CreateProject>
       </DashboardHeader>

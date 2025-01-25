@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { ApprovedRequestTable } from "@/components/leave/ApprovedRequestTable"
+import { LeaveApplicationModal } from "@/components/leave/LeaveApplicationModal"
 
 const leaveTypes = [
   { name: "Sick Leave", days: "7 days", used: "2 days", remaining: "5 days" },
@@ -51,8 +52,9 @@ export default function LeavesPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Leaves</h2>
-        <Button>+ new leave application</Button>
-
+        <LeaveApplicationModal>
+          <Button>+ new leave application</Button>
+        </LeaveApplicationModal>
       </div>
 
         <div>
