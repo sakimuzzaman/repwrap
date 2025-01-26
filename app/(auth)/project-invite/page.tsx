@@ -7,6 +7,8 @@ import axiosInstance from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import toast from 'react-hot-toast';
+import { useState } from "react";
 
 // Validation Schema using Yup
 const validationSchema = yup.object().shape({
@@ -36,18 +38,27 @@ export default function OnboardingPage() {
     resolver: yupResolver(validationSchema),
   });
 
+  const [nowCheckEmailMessage, setNowCheckEmailMessage] = useState<any>(null)
+
   const onSubmit = async (data: any) => {
     try {
       const emails = data.emails.split(",").map((email: any) => email.trim());
       const project_id = localStorage.getItem("project_id");
 
-      // API request to send invites
+      // API request to send invites      
       const response = await axiosInstance.post("/project/invite", { emails: emails, project_id: project_id });
-      console.log("Invites sent successfully:", response.data);
 
       // Reset the form on success
-      reset();
-      alert("Invitations sent successfully!");
+      if (response.data.code == 200) {
+        reset();
+        toast.success(response.data.message);
+        setNowCheckEmailMessage('Your email invitation send successfully check email inbox.')
+      } else {
+        toast.error("Something Problems");
+      }
+     
+      
+
     } catch (error) {
       console.error("Error sending invites:", error);
       alert("Failed to send invites. Please try again.");
@@ -72,6 +83,7 @@ export default function OnboardingPage() {
               className="text-center"
               {...register("emails")}
             />
+            {nowCheckEmailMessage && <p className="text-green-500 text-sm text-center mt-2">{nowCheckEmailMessage}</p>}
             {errors.emails && (
               <p className="text-red-500 text-sm text-center mt-2">
                 {errors.emails.message}
