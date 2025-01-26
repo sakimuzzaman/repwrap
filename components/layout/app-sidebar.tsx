@@ -31,6 +31,12 @@ const routes = [
     color: "text-sky-500",
   },
   {
+    label: "Demo Task",
+    icon: BarChart2,
+    href: "/demo-task",
+    color: "text-sky-500",
+  },
+  {
     label: "Dashboard 2",
     icon: BarChart2,
     href: "/",
