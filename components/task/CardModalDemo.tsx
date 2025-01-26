@@ -192,7 +192,7 @@ export function CardModalDemo({ cardId }: any) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
 
-      <DialogContent className="sm:max-w-[1120px] sm:max-h-[450px]">
+      <DialogContent className="sm:max-w-[1080px] sm:max-h-[450px]">
 
 
         <DialogHeader>
@@ -237,7 +237,7 @@ export function CardModalDemo({ cardId }: any) {
         </DialogHeader>
 
 
-        <div className="flex justify-between">
+        <div className="flex justify-evenly">
 
           <div className="grid gap-4 py-4">
 
