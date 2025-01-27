@@ -520,7 +520,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -536,6 +536,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import axiosInstance from "@/lib/axios";
 
 interface CardModalDemoProps {
   cardId: string;
@@ -668,6 +669,33 @@ export const CardModalDemo = ({ cardId }: CardModalDemoProps) => {
     dateSetter(newDate);
   };
 
+
+
+  const [teams, setTeams] = useState<any>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+  
+    const fetchteams = async () => {
+      try {
+        const response = await axiosInstance.get("/admin/team/members");
+      
+        setTeams(response.data?.data || [])
+       
+       // setLeaves(response.data?.data);
+       console.log("Fetched team members:", response.data?.data);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    };
+  
+    useEffect(() => {
+      
+      fetchteams();
+      console.log('data')
+    }, []);
+
+
   const onSubmit = (data: FormData) => {
     console.log("Form submitted:", data);
     setOpen(false);
@@ -680,9 +708,9 @@ export const CardModalDemo = ({ cardId }: CardModalDemoProps) => {
         <DialogHeader>
           <DialogTitle>
             <div className="grid gap-2">
-              <Input {...register("title")} placeholder="Enter your project title" />
+              <Input className="mt-4" {...register("title")} placeholder="Enter your project title" />
               <Select>
-                <SelectTrigger className="w-[80px]">
+                <SelectTrigger className="w-[120px]">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -699,51 +727,68 @@ export const CardModalDemo = ({ cardId }: CardModalDemoProps) => {
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex justify-evenly">
-          <div className="grid gap-4 py-4">
-            <Textarea {...register("description")} placeholder="Enter your task description" />
+        <div className="flex justify-between gap-4">
+          <div className="w-full">
+            <Textarea {...register("description")}  placeholder="Enter your task description" />
             <div className="flex gap-4">
-              <Input {...register("point")} type="number" placeholder="Estimation time" />
-              <TimePicker
-                selectedDate={startDate}
-                onSelectDate={setStartDate}
-                onChangeTime={(type, value) => handleTimeChange(setStartDate, type, value)}
-                placeholder="Started Date and Time"
-              />
-              <TimePicker
-                selectedDate={completeDate}
-                onSelectDate={setCompleteDate}
-                onChangeTime={(type, value) => handleTimeChange(setCompleteDate, type, value)}
-                placeholder="Completed Date and Time"
-              />
+
+              <Input {...register("point")} className="mt-4" type="number" placeholder="Estimation time" />
+
+              <div className="mt-4">
+                <TimePicker
+                  selectedDate={startDate}
+                  onSelectDate={setStartDate}
+                  onChangeTime={(type, value) => handleTimeChange(setStartDate, type, value)}
+                  placeholder="Started Date and Time"
+                />
+              </div>
+              
+              <div className="mt-4" >
+                <TimePicker
+                  selectedDate={completeDate}
+                  onSelectDate={setCompleteDate}
+                  onChangeTime={(type, value) => handleTimeChange(setCompleteDate, type, value)}
+                  placeholder="Completed Date and Time"
+                />
+              </div>
+             
             </div>
           </div>
-          <div>
+
+          <div className="">
             <div className="flex gap-4">
               <Image src="/profile_img.png" alt="Profile" width={35} height={45} />
               <p className="mt-1">Sabbir Rahman</p>
             </div>
             <hr className="my-4" />
+           
             <Select>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Assign" />
               </SelectTrigger>
               <SelectContent>
+              
                 <SelectGroup>
-                  <SelectItem value="1">Md Hasan</SelectItem>
-                  <SelectItem value="2">Jamil</SelectItem>
-                  <SelectItem value="3">Sabbir</SelectItem>
+                {teams.map((member:any) => (
+                  <SelectItem value={member.name}>
+                     <div className="font-medium">{member.name}</div>
+                  </SelectItem>
+                  ))}
+                  
                 </SelectGroup>
               </SelectContent>
+            
             </Select>
+       
           </div>
+
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button className="w-1/5" type="button" onClick={handleSubmit(onSubmit)}>
+          <Button className="w-1/6" type="button" onClick={handleSubmit(onSubmit)}>
             {isSubmitting ? "Creating Task..." : "Create Task"}
           </Button>
         </DialogFooter>

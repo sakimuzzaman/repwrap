@@ -2,8 +2,7 @@
 
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useEffect, useState } from "react";
-import axiosInstance from "@/lib/axios";
+
 
 
 export default function TaskCard({cardModalManage, cardInfo}: any) {
@@ -12,31 +11,7 @@ export default function TaskCard({cardModalManage, cardInfo}: any) {
     { id: 2, name: "Bob", profile_image: "/profile2.jpg" },
   ];
 
-  const [teams, setTeams] = useState<any>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-
-  const fetchteams = async () => {
-    try {
-      const response = await axiosInstance.get("/admin/team/members");
-    
-      setTeams(response.data?.data || [])
-     
-     // setLeaves(response.data?.data);
-     console.log("Fetched Leaves:", response.data?.data);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    
-    fetchteams();
-    console.log('data')
-  }, []);
-
+ 
 
 
 
