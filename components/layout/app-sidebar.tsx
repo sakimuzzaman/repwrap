@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { BarChart2, ClipboardList, Users, Calendar } from 'lucide-react'
+import { BarChart2, ClipboardList, Users, Calendar, BookOpenCheck, CirclePlus,  UsersRound,  Workflow, Plus, UserPlus,  FilePlus, LayoutDashboard, ClipboardPlus } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useSelector } from "react-redux";
 
@@ -151,7 +151,7 @@ export function AppSidebar() {
 
   let routes = [];
 
-  if (user?.role == 'admin') {
+  if (user?.role == 'user') {
     routes = [
       {
         label: "Dashboard",
@@ -159,10 +159,10 @@ export function AppSidebar() {
         href: "/dashboard",
         color: "text-sky-500",
       },
-     
+
       {
         label: "Demo Task",
-        icon: BarChart2,
+        icon: BookOpenCheck,
         href: "/demo-task",
         color: "text-sky-500",
       },
@@ -175,22 +175,8 @@ export function AppSidebar() {
       },
       {
         label: "Task",
-        icon: BarChart2,
+        icon: BookOpenCheck,
         href: "/task",
-        tooltip: "Dashboard",
-        color: "text-sky-500",
-      },
-      
-      {
-        label: "Employee LeaveManagement",
-        icon: BarChart2,
-        href: "/employee-leavemanagement",
-        color: "text-sky-500",
-      },
-      {
-        label: "EmployeeBlankDashboard",
-        icon: BarChart2,
-        href: "/employee-blankdashboard",
         color: "text-sky-500",
       },
 
@@ -202,7 +188,7 @@ export function AppSidebar() {
       },
       {
         label: "Daily Reports Create",
-        icon: ClipboardList,
+        icon: CirclePlus,
         href: "/reports/new",
         color: "text-violet-500",
       },
@@ -217,49 +203,64 @@ export function AppSidebar() {
         icon: Calendar,
         href: "/leave-type",
         color: "text-pink-500",
+      
       },
-    
+
       {
         label: "Team",
-        icon: Users,
+        icon:  UsersRound,
         href: "/team",
         color: "text-orange-500",
       },
-    
+
       {
         label: "Projects",
-        icon: ClipboardList,
+        icon:  Workflow,
         href: "/projects",
         tooltip: "Projects",
         color: "text-orange-500",
       },
-     
+
       {
         label: "Project Create",
-        icon: ClipboardList,
+        icon: Plus,
         href: "/project-create",
         tooltip: "project",
         color: "text-orange-500",
       },
       {
         label: "Project Invite",
-        icon: ClipboardList,
+        icon: UserPlus,
         href: "/project-invite",
         tooltip: "Projects",
+        color: "text-orange-500",
+      },
+      {
+        label: "Workspace Create",
+        icon:  FilePlus,
+        href: "/workspace-create",
+        tooltip: "Workspace",
         color: "text-orange-500",
       },
     ]
   } else {
     routes = [
       {
-        label: "Dashboard",
+        label: "EmployeeBlankDashboard",
         icon: BarChart2,
-        href: "/dashboard",
+        href: "/employee-blankdashboard",
         color: "text-sky-500",
       },
       {
+        label: "EmployeeDashboard",
+        icon: LayoutDashboard,
+        href: "/employee-dashboard",
+        color: "text-sky-500",
+      },
+     
+      {
         label: "Employee WorkReport",
-        icon: BarChart2,
+        icon: ClipboardPlus,
         href: "/employee-workreport",
         color: "text-sky-500",
       },
@@ -270,24 +271,10 @@ export function AppSidebar() {
         color: "text-sky-500",
       },
       {
-        label: "Dashboard 2",
-        icon: BarChart2,
-        href: "/",
-        tooltip: "Dashboard",
-        color: "text-sky-500",
-      },
-      {
-        label: "Task",
-        icon: BarChart2,
-        href: "/task",
-        tooltip: "Dashboard",
-        color: "text-sky-500",
-      },
-      {
-        label: "EmployeeDashboard",
-        icon: BarChart2,
-        href: "/employee-dashboard",
-        color: "text-sky-500",
+        label: "Leave Type",
+        icon: Calendar,
+        href: "/leave-type",
+        color: "text-pink-500",
       },
       {
         label: "Employee LeaveManagement",
@@ -295,13 +282,17 @@ export function AppSidebar() {
         href: "/employee-leavemanagement",
         color: "text-sky-500",
       },
+     
       {
-        label: "EmployeeBlankDashboard",
-        icon: BarChart2,
-        href: "/employee-blankdashboard",
+        label: "Task",
+        icon: BookOpenCheck,
+        href: "/task",
+        tooltip: "Dashboard",
         color: "text-sky-500",
       },
-
+      
+     
+     
       {
         label: "Daily Reports",
         icon: ClipboardList,
@@ -314,33 +305,37 @@ export function AppSidebar() {
         href: "/reports/new",
         color: "text-violet-500",
       },
-      {
-        label: "Leave Management",
-        icon: Calendar,
-        href: "/leaves",
-        color: "text-pink-500",
-      },
-      
+    
+
       {
         label: "Employee Leave Application",
         icon: Calendar,
         href: "/employee-leaveapplication",
         color: "text-pink-500",
       },
-      {
-        label: "Team",
-        icon: Users,
-        href: "/team",
-        color: "text-orange-500",
-      },
+    
       {
         label: "Employee Team",
         icon: Users,
         href: "/employee-team",
         color: "text-orange-500",
       },
-  
-      
+      {
+        label: "Project Create",
+        icon: Plus,
+        href: "/project-create",
+        tooltip: "project",
+        color: "text-orange-500",
+      },
+      {
+        label: "Project Invite",
+        icon: UserPlus,
+        href: "/project-invite",
+        tooltip: "Projects",
+        color: "text-orange-500",
+      },
+
+
     ]
   }
 
