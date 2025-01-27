@@ -2,7 +2,7 @@
 
 import { MoreHorizontal } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+
 
 
 export default function TaskCard({cardModalManage, cardInfo}: any) {
@@ -10,6 +10,10 @@ export default function TaskCard({cardModalManage, cardInfo}: any) {
     { id: 1, name: "Alice", profile_image: "/profile1.jpg" },
     { id: 2, name: "Bob", profile_image: "/profile2.jpg" },
   ];
+
+ 
+
+
 
 console.log(cardInfo);
 
