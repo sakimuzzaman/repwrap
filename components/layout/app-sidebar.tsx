@@ -151,10 +151,10 @@ export function AppSidebar() {
 
   let routes = [];
 
-  if (user?.role == 'user') {
+  if (user?.role == 'admin') {
     routes = [
       {
-        label: "Dashboard",
+        label: "Dashboard admin",
         icon: BarChart2,
         href: "/dashboard",
         color: "text-sky-500",
@@ -270,12 +270,12 @@ export function AppSidebar() {
         href: "/demo-task",
         color: "text-sky-500",
       },
-      {
-        label: "Leave Type",
-        icon: Calendar,
-        href: "/leave-type",
-        color: "text-pink-500",
-      },
+      // {
+      //   label: "Leave Type",
+      //   icon: Calendar,
+      //   href: "/leave-type",
+      //   color: "text-pink-500",
+      // },
       {
         label: "Employee LeaveManagement",
         icon: BarChart2,
@@ -320,20 +320,20 @@ export function AppSidebar() {
         href: "/employee-team",
         color: "text-orange-500",
       },
-      {
-        label: "Project Create",
-        icon: Plus,
-        href: "/project-create",
-        tooltip: "project",
-        color: "text-orange-500",
-      },
-      {
-        label: "Project Invite",
-        icon: UserPlus,
-        href: "/project-invite",
-        tooltip: "Projects",
-        color: "text-orange-500",
-      },
+      // {
+      //   label: "Project Create",
+      //   icon: Plus,
+      //   href: "/project-create",
+      //   tooltip: "project",
+      //   color: "text-orange-500",
+      // },
+      // {
+      //   label: "Project Invite",
+      //   icon: UserPlus,
+      //   href: "/project-invite",
+      //   tooltip: "Projects",
+      //   color: "text-orange-500",
+      // },
 
 
     ]
