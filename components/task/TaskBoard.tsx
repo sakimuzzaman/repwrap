@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
 import { CardModal } from "./CardModal";
 import axiosInstance from "@/lib/axios";
+import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { setTask } from "@/redux/taskSlice";
+import { useSelector } from "react-redux";
 
 export default function TaskBoard() {
   const [isOpenCardModal, setIsOpenCardModal] = useState<boolean>(false);
@@ -19,11 +23,23 @@ export default function TaskBoard() {
     "review",
   ];
 
+  const dispatch = useDispatch();
+
+  const taskSetToCard = (task: any) => {
+    dispatch(setTask(task));
+  }
+
+ 
+  
+  //const user = useSelector((state) => state.user.user);
+  const task = useSelector((state: any) => state.task.task);
+ // console.log(task)
 
   const fetchTasks = async () => {
     try {
       const response = await axiosInstance.get("/tasks");
       const tasksData = response.data.data;
+      
 
       // Ensure tasksData is an array
       if (!Array.isArray(tasksData)) {
@@ -43,17 +59,22 @@ export default function TaskBoard() {
     }
   };
 
-  const cardModalManage = (id: number) => {
-    setIsOpenCardModal(true);
-    setCardId(id);
-  };
+  // const cardModalManage = (id: number) => {
+  //   setIsOpenCardModal(true);
+  //   setCardId(id);
+  // };
 
   useEffect(() => {
     fetchTasks(); // Fetch tasks when the component is mounted
   }, []);
 
   return (
+
     <div className="flex overflow-x-scroll overflow-y-hidden space-x-4 p-4">
+
+    
+    {/* <Button onClick={() => handleBtnTwo()}>Click Two</Button> */}
+
       {statuses.map((status) => (
         <div
           key={status}
@@ -63,22 +84,23 @@ export default function TaskBoard() {
             {status}
           </h2>
           <div className="p-2 space-y-3 max-h-[450px] overflow-y-auto">
-            {tasks[status]?.map((task) => (
-              <TaskCard
-                key={task.id}
-                cardModalManage={cardModalManage}
-                cardInfo={task}
-              />
+            {tasks[status]?.map((task, index) => (
+              <div onClick={() => taskSetToCard(task) } key={index}>
+                <TaskCard
+               
+               key={task.id}
+              //  cardModalManage={cardModalManage}
+               cardInfo={task}
+             />
+              </div>
+              
             ))}
           </div>
         </div>
       ))}
 
-      {isOpenCardModal && (
-        <CardModal
-          cardId={cardId}
-          isOpenCardModalManage={() => setIsOpenCardModal(false)}
-        />
+      {task && (
+        <CardModal />
       )}
     </div>
   );

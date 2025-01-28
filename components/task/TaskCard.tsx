@@ -5,23 +5,21 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 
 
-export default function TaskCard({cardModalManage, cardInfo}: any) {
+
+export default function TaskCard({cardInfo}: any) {
   const assignedMembers = [
     { id: 1, name: "Alice", profile_image: "/profile1.jpg" },
   ];
 
 
-  const modalOpen = (id :any) => {
-    console.log('info', id);
-    cardModalManage(id)
-  }
 
   return (
    
-    <div onClick={() => modalOpen(1)} className="bg-white max-h-[450px] dark:bg-gray-700 p-4 rounded-lg shadow-sm flex items-center justify-between">
+    <div className="bg-white max-h-[450px] dark:bg-gray-700 p-4 rounded-lg shadow-sm flex items-center justify-between">
       <div>
         <h4 className="font-sm line-clamp-2">{cardInfo?.title}</h4>
         <div className="flex space-x-2 mt-1">
+          
           {assignedMembers.map((member) => (
             <img
               key={member.id}
