@@ -49,13 +49,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>View details</DropdownMenuItem>
+            {/* <DropdownMenuItem>View details</DropdownMenuItem> */}
              
                 <DropdownMenuItem onClick={() => setEditModal(true)}>Edit project</DropdownMenuItem>
              
-            <DropdownMenuItem className="text-destructive">
+            {/* <DropdownMenuItem className="text-destructive">
               Delete project
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>

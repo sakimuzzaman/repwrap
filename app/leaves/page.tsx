@@ -1,6 +1,6 @@
+"use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-// import  ApprovedRequestTable  from '../../components/leave/ApprovedRequestTable';
 import {
   Table,
   TableBody,
@@ -10,109 +10,133 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { ApprovedRequestTable } from "@/components/leave/ApprovedRequestTable"
-
-const leaveTypes = [
-  { name: "Casual Leave", days: "12 days", used: "5 days", remaining: "7 days" },
-  { name: "Sick Leave", days: "7 days", used: "2 days", remaining: "5 days" },
-  { name: "Vacation", days: "14 days", used: "0 days", remaining: "14 days" },
-]
-
-const pendingLeaves = [
-  {
-    id: 1,
-    type: "Casual Leave",
-    from: "2024-01-15",
-    to: "2024-01-16",
-    days: "2",
-    status: "Pending",
-  },
-  {
-    id: 1,
-    type: "Casual Leave",
-    from: "2024-01-15",
-    to: "2024-01-16",
-    days: "2",
-    status: "Pending",
-  },
-  {
-    id: 1,
-    type: "Casual Leave",
-    from: "2024-01-15",
-    to: "2024-01-16",
-    days: "2",
-    status: "Pending",
-  },
-  // Add more pending leaves...
-]
+import { useState, useEffect } from "react"
+import axiosInstance from "@/lib/axios";
+import { LeaveApplicationDetailsModal } from "@/components/leave/LeaveApplicationDetails"
 
 export default function LeavesPage() {
+  const [pendingLeaves, setPendingLeaves] = useState<any>([]);
+  const [approveLeave, setApproveLeave] = useState<any>([]);
+  const [loading, setLoading] = useState<any>(true);
+  const [error, setError] = useState<any>(null);
+
+  const fetchLeaveData = async () => {
+    try {
+      const response = await axiosInstance.get("/admin/leave/manage");
+      setPendingLeaves(response.data.data.pendingLeave);
+      setApproveLeave(response.data.data.approveLeave);
+    } catch (err) {
+      setError("Failed to fetch leaves.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ API 
+  useEffect(() => {
+    fetchLeaveData();
+  }, []);
+
+  // Trigger data refresh when leave application is successfully submitted
+  const onLeaveApplicationSuccess = () => {
+    fetchLeaveData();
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Leave Management</h2>
-        <Button>Set Leave system</Button>
+        {/* <Button>Set Leave system</Button> */}
       </div>
-      
-      {/* <div className="grid gap-4 md:grid-cols-3">
-        {leaveTypes.map((leave) => (
-          <Card key={leave.name}>
-            <CardHeader>
-              <CardTitle className="text-sm font-medium">{leave.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{leave.remaining}</div>
-              <p className="text-xs text-muted-foreground">
-                Used: {leave.used} / Total: {leave.days}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div> */}
 
       <Card>
         <CardHeader>
           <CardTitle>Pending Leave Applications</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Type</TableHead>
-                <TableHead>From</TableHead>
-                <TableHead>To</TableHead>
-                <TableHead>Days</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {pendingLeaves.map((leave) => (
-                <TableRow key={leave.id}>
-                  <TableCell>{leave.type}</TableCell>
-                  <TableCell>{leave.from}</TableCell>
-                  <TableCell>{leave.to}</TableCell>
-                  <TableCell>{leave.days}</TableCell>
-                  <TableCell>{leave.status}</TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="sm">
-                      View
-                    </Button>
-                  </TableCell>
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : pendingLeaves.length === 0 ? (
+            <p>No pending leave applications.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Applicant Name</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>From Date</TableHead>
+                  <TableHead>To Date</TableHead>
+                  <TableHead>Days</TableHead>
+                  <TableHead>Applied Date</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Action</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {pendingLeaves?.map((leave: any) => (
+                  <TableRow key={leave.id}>
+                    <TableCell className="capitalize">{leave.user.name}</TableCell>
+                    <TableCell className="capitalize">{leave.leave_type.type}</TableCell>
+                    <TableCell>
+                      {new Date(leave.start_date).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit',
+                        weekday: 'long'
+                      })}
+                    </TableCell>
+
+                    <TableCell>
+                      {new Date(leave.end_date).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit',
+                        weekday: 'long'
+                      })}
+                    </TableCell>
+                    <TableCell>
+                      {Math.ceil((new Date(leave.end_date).getTime() - new Date(leave.start_date).getTime()) / (1000 * 60 * 60 * 24))} days
+                    </TableCell>
+                    <TableCell>
+                      {new Date(leave.applied_date).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit',
+                        weekday: 'long'
+                      })}
+                    </TableCell>
+                    <TableCell className="capitalize">{leave.status}</TableCell>
+                    <TableCell>
+                      <LeaveApplicationDetailsModal leaveId={leave.id} userId={leave.user.id} onLeaveApplicationSuccess={onLeaveApplicationSuccess}>
+                        <Button variant="outline" size="sm">View Details</Button>
+                      </LeaveApplicationDetailsModal>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
 
 
       <Card>
-         <CardHeader>
-           <CardTitle>Approved Leave Request</CardTitle>
-         </CardHeader>
-        
+        <CardHeader>
+          <CardTitle>Approved Leave Request</CardTitle>
+        </CardHeader>
+
         <CardContent>
-            <ApprovedRequestTable />
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : approveLeave.length === 0 ? (
+            <p>No leave applications.</p>
+          ) : (
+            <ApprovedRequestTable leaves={approveLeave} onLeaveApplicationSuccess={onLeaveApplicationSuccess} />
+          )}
         </CardContent>
 
       </Card>

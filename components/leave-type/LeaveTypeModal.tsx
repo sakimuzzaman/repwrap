@@ -51,6 +51,8 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
     "emergency",
     "marriage",
     "adoption",
+    'parental',
+    'study',
   ];
 
   const {

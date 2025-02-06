@@ -30,7 +30,6 @@ const LeaveList = () => {
     useEffect(() => {
       
       fetchLeaves();
-      console.log('data')
     }, []);
   
     return (
