@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { BarChart2, ClipboardList, Users, Calendar, BookOpenCheck, CirclePlus,  UsersRound,  Workflow, Plus, UserPlus,  FilePlus, LayoutDashboard, ClipboardPlus } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useSelector } from "react-redux";
+import Cookies from 'js-cookie';
 
 import {
   Sidebar,
@@ -18,6 +19,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { useEffect, useState } from "react"
 
 // routes = [
 //   {
@@ -145,25 +147,27 @@ import {
 
 export function AppSidebar() {
   const pathname = usePathname()
-  const user = useSelector((state: { user: { user: any } }) => state.user.user);
-  console.log(user);
+  const [user, setUser] = useState<any>(null)
+  // const user = useSelector((state: { user: { user: any } }) => state.user.user);
 
+  useEffect(() => {
+    setUser(Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null);  
+  }, [])
 
   let routes = [];
 
-  if (user?.role == 'admin') {
+  if (user?.role === 'admin') {
     routes = [
+      {
+        label: "Conversation",
+        icon: BarChart2,
+        href: "/conversation",
+        color: "text-sky-500",
+      },
       {
         label: "Dashboard admin",
         icon: BarChart2,
         href: "/dashboard",
-        color: "text-sky-500",
-      },
-
-      {
-        label: "Demo Task",
-        icon: BookOpenCheck,
-        href: "/demo-task",
         color: "text-sky-500",
       },
       {
@@ -186,12 +190,16 @@ export function AppSidebar() {
         href: "/reports",
         color: "text-violet-500",
       },
-      {
-        label: "Daily Reports Create",
-        icon: CirclePlus,
-        href: "/reports/new",
-        color: "text-violet-500",
-      },
+
+
+      // {
+      //   label: "Daily Reports Create",
+      //   icon: CirclePlus,
+      //   href: "/reports/new",
+      //   color: "text-violet-500",
+      // },
+
+
       {
         label: "Leave Management",
         icon: Calendar,
@@ -246,38 +254,26 @@ export function AppSidebar() {
   } else {
     routes = [
       {
-        label: "EmployeeBlankDashboard",
+        label: "Conversation",
+        icon: BarChart2,
+        href: "/conversation",
+        color: "text-sky-500",
+      },
+      {
+        label: "Blank Dashboard",
         icon: BarChart2,
         href: "/employee-blankdashboard",
         color: "text-sky-500",
       },
       {
-        label: "EmployeeDashboard",
+        label: "Dashboard",
         icon: LayoutDashboard,
         href: "/employee-dashboard",
         color: "text-sky-500",
       },
-     
+
       {
-        label: "Employee WorkReport",
-        icon: ClipboardPlus,
-        href: "/employee-workreport",
-        color: "text-sky-500",
-      },
-      {
-        label: "Demo Task",
-        icon: BarChart2,
-        href: "/demo-task",
-        color: "text-sky-500",
-      },
-      // {
-      //   label: "Leave Type",
-      //   icon: Calendar,
-      //   href: "/leave-type",
-      //   color: "text-pink-500",
-      // },
-      {
-        label: "Employee LeaveManagement",
+        label: "Leave Management",
         icon: BarChart2,
         href: "/employee-leavemanagement",
         color: "text-sky-500",
@@ -308,7 +304,7 @@ export function AppSidebar() {
     
 
       {
-        label: "Employee Leave Application",
+        label: "Leave Application",
         icon: Calendar,
         href: "/employee-leaveapplication",
         color: "text-pink-500",
@@ -320,6 +316,10 @@ export function AppSidebar() {
         href: "/employee-team",
         color: "text-orange-500",
       },
+
+
+
+
       // {
       //   label: "Project Create",
       //   icon: Plus,
@@ -333,6 +333,12 @@ export function AppSidebar() {
       //   href: "/project-invite",
       //   tooltip: "Projects",
       //   color: "text-orange-500",
+      // },
+      // {
+      //   label: "Leave Type",
+      //   icon: Calendar,
+      //   href: "/leave-type",
+      //   color: "text-pink-500",
       // },
 
 

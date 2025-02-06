@@ -35,12 +35,7 @@ export function  EditLeaveTypeModal({ leaveId }: EditLeaveTypeProps) {
   const [unit, setUnit] = useState("day");
   const [status, setStatus] = useState("active");
   const [initialData, setInitialData] = useState<FormData | null>(null);
- 
-
-  console.log(unit);
-  
-
-
+   
   const leaveTypes = [
     "sick",
     "paid",
@@ -50,6 +45,8 @@ export function  EditLeaveTypeModal({ leaveId }: EditLeaveTypeProps) {
     "emergency",
     "marriage",
     "adoption",
+    'parental',
+    'study',
   ];
 
   const {

@@ -34,13 +34,9 @@ interface FormData {
 
 export function CreateTaskModal({ children }: FromProps) {
   const [open, setOpen] = useState(false)
-
   const [projects, setProjects] = useState([]);
-
   
   const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<FormData>();
-
-  
 
   useEffect(() => {
     
@@ -59,9 +55,7 @@ export function CreateTaskModal({ children }: FromProps) {
 
 
 
-  const onSubmit = async (data: FormData) => {
-    console.log("dasdasd")
-    
+  const onSubmit = async (data: FormData) => {    
     try {
       const response = await axiosInstance.post("task/create", {
         project_id: data.project_id,

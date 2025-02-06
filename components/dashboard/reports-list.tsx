@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Search, ChevronDown, ChevronUp, Paperclip } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,9 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { WeekDays } from "../reports/week-days"
+import axiosInstance from "@/lib/axios";
+import Image from "next/image"
+import Link from "next/link"
 
 const reports = [
   {
@@ -47,35 +50,59 @@ const reports = [
 export function ReportsList() {
   const [expandedId, setExpandedId] = useState<number | null>(1)
 
+  const [dailyReports, setDailyReports] = useState<any>([]);
+  const [date, setDate] = useState<any>('');
+  const [search, setSearch] = useState<any>('');
+
+  useEffect(() => {
+    // Make the API call when the component is mounted
+    const fetchReports = async () => {
+      try {
+        const response = await axiosInstance.get('/admin-daily-work-reports', {
+          params: {
+            search: search || "",  
+            date: date || "",      
+          },
+        })
+        setDailyReports(response.data.data); // Store the data in state
+      } catch (error) {
+        console.error('Error fetching reports:', error);
+      }
+    };
+
+    fetchReports();
+  }, [search]);
+
   return (
     <Card>
       <CardHeader>
-       <WeekDays />
+        <WeekDays />
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search by Team Members Name"
+            onChange={(e) => setSearch(e.target.value)}
             className="pl-8"
           />
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {reports.map((report) => (
-          <div key={report.id} className="space-y-4">
-            <div 
+        {dailyReports.length > 0 && dailyReports?.map((report: any, index: any) => (
+          <div key={index} className="space-y-4">
+            <div
               className="flex items-center justify-between cursor-pointer"
               onClick={() => setExpandedId(expandedId === report.id ? null : report.id)}
             >
               <div className="flex items-center space-x-4">
                 <Avatar>
-                  <AvatarImage src={report.avatar} />
-                  <AvatarFallback>{report.initials}</AvatarFallback>
+                  {/* <AvatarImage src={report.avatar} /> */}
+                  <AvatarFallback>II</AvatarFallback>
                 </Avatar>
                 <div>
                   <p className="text-sm font-medium">Name: {report.name}</p>
                   <p className="text-sm text-muted-foreground">
-                    Total Tasks Completed: {report.tasksCompleted} | 
-                    Total Hours Worked: {report.hoursWorked} Hrs
+                    Total Tasks Completed: {report.completed_task_count} |
+                    Total Hours Worked: {report.total_hours_count} Hrs
                   </p>
                 </div>
               </div>
@@ -85,23 +112,22 @@ export function ReportsList() {
                 <ChevronDown className="h-4 w-4" />
               )}
             </div>
-            
+
             {expandedId === report.id && (
               <div className="pl-12 space-y-4">
-                {report.tasks.map((task) => (
+                {report.reports.map((task: any) => (
                   <div key={task.id} className="border rounded-lg p-4">
                     <div className="grid grid-cols-4 gap-4 mb-4">
                       <div>
-                        <p className="text-sm font-medium">Task {task.id}</p>
-                        <p className="text-sm text-muted-foreground">{task.title}</p>
+                        <p className="text-sm font-medium capitalize">{task.title}</p>
                       </div>
                       <div>
                         <p className="text-sm font-medium">Project</p>
-                        <p className="text-sm text-muted-foreground">{task.project}</p>
+                        <p className="text-sm text-muted-foreground">{task.project.title}</p>
                       </div>
                       <div>
                         <p className="text-sm font-medium">Time</p>
-                        <p className="text-sm text-muted-foreground">{task.time}</p>
+                        <p className="text-sm text-muted-foreground">{task.hours}</p>
                       </div>
                       <div>
                         <p className="text-sm font-medium">Status</p>
@@ -112,19 +138,33 @@ export function ReportsList() {
                       <p className="text-sm font-medium">Details</p>
                       <p className="text-sm text-muted-foreground">{task.details}</p>
                     </div>
+                    {task.task_url_link && <div className="mt-2 flex">
+                      <p className="text-sm font-medium mr-2">Link: </p>
+                      <p className="text-sm text-muted-foreground">
+                        <Link href={task.task_url_link} target="_blank">Open Link</Link>
+                      </p>
+                    </div>}
+                    
                     <div className="flex gap-2 mt-4">
-                      <Button variant="outline" size="sm">
-                        <Paperclip className="h-4 w-4 mr-2" />
-                        File.Png
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Paperclip className="h-4 w-4 mr-2" />
-                        File.Pdf
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Paperclip className="h-4 w-4 mr-2" />
-                        File.Pdf
-                      </Button>
+                      {/* Attachment Section */}
+                      <div className="flex gap-2 mt-4 items-center">
+                        {task.attachment ? (
+                          <Link href={task.attachment} target="_blank">
+                            <Image
+                              src={task.attachment}
+                              alt="Attachment Preview"
+                              width={200}
+                              height={200}
+                              className="rounded"
+                            />
+                          </Link>
+                        ) : (
+                          <div className="w-16 h-16 bg-gray-300 rounded flex items-center justify-center">
+                            <p className="text-center text-white">No Image</p>
+                          </div>
+                        )}
+                        
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -132,7 +172,8 @@ export function ReportsList() {
             )}
           </div>
         ))}
-        <div className="flex items-center justify-between pt-4 border-t">
+        {dailyReports.length == 0 && <p className="text-center">Report Not Found</p>}
+        {/* <div className="flex items-center justify-between pt-4 border-t">
           <p className="text-sm text-muted-foreground">
             Showing 1 To 9 Of 20 Entries
           </p>
@@ -141,7 +182,7 @@ export function ReportsList() {
             <Button variant="outline" size="sm">2</Button>
             <Button variant="outline" size="sm">→</Button>
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   )
