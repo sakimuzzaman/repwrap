@@ -207,6 +207,8 @@ export function CardModal() {
   useEffect(() => {
 
     fetchteams();
+
+
     setValue("title", task.title || "");
     setValue("description", task.description || "");
     setValue("point", task.point || 0);
@@ -257,10 +259,8 @@ export function CardModal() {
             <div className="flex gap-4">
 
               <div>
-            
                 <Input {...register("point")} className="mt-4" type="number" placeholder="Estimation time" />
                 <p className="text-yellow-500 text-xs -mb-4">Note: Calculate estimated time in munite</p>
-
               </div>
 
               <div className="mt-4">

@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 
 interface ComponentProps {
   children: React.ReactNode;
+  onLeaveApplicationSuccess?: () => void;
 }
 
 interface FormData {
@@ -36,19 +37,19 @@ interface FormData {
   certificate: File | null;
 }
 
-export function LeaveApplicationModal({ children }: ComponentProps) {
+export function LeaveApplicationModal({ children, onLeaveApplicationSuccess }: ComponentProps) {
   const [open, setOpen] = useState(false);
   const [leaveTypes, setLeaveTypes] = useState([]);
   const [startDate, setStartDate] = useState<any>(null);
   const [endDate, setEndDate] = useState<any>(null);
   const [certificate, setCertificate] = useState<any>(null);
-  
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<FormData>({
     defaultValues: {
       leave_type_id: "",
@@ -82,18 +83,23 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
       formData.append("reason", data.reason);
       formData.append("start_date", startDate);
       formData.append("end_date", endDate);
-      
       formData.append("certificate", certificate);
-    
 
       const response = await axiosInstance.post("/leave/application/apply", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      if (response?.data?.code === 201) {
+      if (response?.data?.code == 201) {
         toast.success(response.data.message);
         setOpen(false);
-        router.refresh();
+        reset(); // Reset the form using react-hook-form
+        setStartDate(null); // Clear startDate state
+        setEndDate(null); // Clear endDate state
+        setCertificate(null); // Clear certificate state
+
+        if (onLeaveApplicationSuccess) {
+          onLeaveApplicationSuccess();
+        }
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -117,11 +123,11 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
               <select
                 id="leave_type_id"
                 {...register("leave_type_id", { required: "Leave type is required" })}
-                className="border rounded p-2 w-full"
+                className="border rounded p-2 w-full capitalize"
               >
                 <option value="">Select Leave Type</option>
                 {leaveTypes.map((type: any, index: number) => (
-                  <option key={index} value={type.id}>
+                  <option className="capitalize" key={index} value={type.id}>
                     {type.type}
                   </option>
                 ))}
@@ -150,12 +156,12 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
                     mode="single"
                     selected={startDate || undefined}
                     onSelect={(date: any) => {
-                        if (date) {
-                         
-                          setStartDate(format(date, "yyyy-MM-dd"));
-                           // Save the formatted date to the form
-                        }
-                      }}
+                      if (date) {
+
+                        setStartDate(format(date, "yyyy-MM-dd"));
+                        // Save the formatted date to the form
+                      }
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
@@ -179,12 +185,12 @@ export function LeaveApplicationModal({ children }: ComponentProps) {
                     mode="single"
                     selected={endDate || undefined}
                     onSelect={(date: any) => {
-                        if (date) {
-                          // Format the date to 'YYYY-MM-DD'
-                          setEndDate(format(date, "yyyy-MM-dd"));
-                          // Save the formatted date to the form
-                        }
-                      }}
+                      if (date) {
+                        // Format the date to 'YYYY-MM-DD'
+                        setEndDate(format(date, "yyyy-MM-dd"));
+                        // Save the formatted date to the form
+                      }
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
