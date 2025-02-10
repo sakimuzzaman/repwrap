@@ -16,13 +16,14 @@ import { Logo } from "../setting/logo"
 
 export function Header() {
     return (
-        <header className="sticky top-0 z-50 px-5 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-50 px-5 w-full">
+        
             <div className="container flex h-14 items-center justify-between gap-4">
                 <Logo />
                 <div className="flex items-center justify-end space-x-4">
                     <ThemeToggle />
                     <Link href="/login">
-                        <Button className="w-full">Signin</Button>
+                        <Button className="w-full bg-[#fff] text-[#222121] hover:bg-slate-400">Signin</Button>
                     </Link>
                 </div>
             </div>

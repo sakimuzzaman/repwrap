@@ -15,17 +15,17 @@ export default function DashboardPage() {
     <DashboardShell>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="text-2xl font-semibold text-[#010136] dark:text-[#FFFFFF]">Admin Dashboard</h1>
+          <p className="text-sm text-[#010136] dark:text-[#FFFFFF]">
             12th December, 2024
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm">
+          <Button className=" text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-600 transition duration-300 ease-in-out"  variant="outline" size="sm">
             <PlusCircle className="mr-2 h-4 w-4" />
             Create Project
           </Button>
-          <Button variant="outline" size="sm">
+          <Button className=" text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-600 transition duration-300 ease-in-out"  variant="outline" size="sm">
             <UserPlus className="mr-2 h-4 w-4" />
             Invite Teammates
           </Button>

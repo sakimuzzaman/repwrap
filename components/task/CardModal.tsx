@@ -317,7 +317,7 @@ export function CardModal() {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button className="w-1/6" type="button" onClick={handleSubmit(onSubmit)}>
+          <Button className="w-1/6 bg-[#3D30EF] text-white hover:bg-slate-400" type="button" onClick={handleSubmit(onSubmit)}>
             {isSubmitting ? "Creating Task..." : "Updated Task"}
           </Button>
         </DialogFooter>

@@ -16,7 +16,7 @@ const LeaveType = () => {
         <h2 className="text-2xl font-bold">Leave Type</h2>
 
         <LeaveTypeModal>
-            <Button>+ New Leave Type</Button>
+            <Button className='bg-[#3D30EF] text-white hover:bg-slate-400'>+ New Leave Type</Button>
         </LeaveTypeModal>
 
       </div> 

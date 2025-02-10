@@ -9,13 +9,27 @@ export default function ReportsPage() {
     return (
         <div className=" p-6 ">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold mb-6">Daily Reports</h2>
-                <Link href={'/reports/new'} ><Button variant="outline" size="sm">
+                <h2 className="text-2xl font-bold mb-6 text-[#010136] dark:text-[#FFFFFF]">Daily Reports</h2>
+                <Link href={'/reports/new'} >
+                    {/* <Button variant="outline" size="sm">
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Create
-                </Button></Link>
+                </Button> */}
+
+                    <div className="flex gap-2">
+                        <Button className=" text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-600 transition duration-300 ease-in-out" variant="outline" size="sm">
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            Create Project
+                        </Button>
+                        <Button className=" text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-600 transition duration-300 ease-in-out" variant="outline" size="sm">
+                            <UserPlus className="mr-2 h-4 w-4" />
+                            Invite Teammates
+                        </Button>
+                    </div>
+
+                </Link>
             </div>
-{/* 
+            {/* 
             <div className="flex gap-2 justify-end -mt-14">
                 <Button variant="outline" size="sm">
                     <PlusCircle className="mr-2 h-4 w-4" />

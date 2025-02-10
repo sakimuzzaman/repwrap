@@ -53,7 +53,7 @@ export default function SignUp() {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-8">
+      {/* <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-semibold">Repwrap</h1>
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Have An Account?</span>
@@ -61,11 +61,11 @@ export default function SignUp() {
             <Link href="/login">Login</Link>
           </Button>
         </div>
-      </div>
+      </div> */}
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Welcome to Repwrap</CardTitle>
-          <p className="text-center text-muted-foreground">Sign up for your account</p>
+          <CardTitle className="text-2xl text-center bg-gradient-to-r from-[#443EFC] to-[#06CBF8] bg-clip-text text-transparent">Welcome to Repwrap</CardTitle>
+          <p className="text-center text-[#271654]">Sign up for your account</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -141,7 +141,7 @@ export default function SignUp() {
 
             </div>
 
-            <Button className="w-full" type="submit" disabled={isSubmitting}>
+            <Button className="w-full bg-gradient-to-r from-[#443EFC] to-[#06CBF8] text-white disabled:opacity-50" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Signing up..." : "Sign up"}
             </Button>
           </form>

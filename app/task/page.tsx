@@ -16,7 +16,7 @@ export default function TaskPage() {
     <DashboardShell>
       <DashboardHeader heading="Tasks" text="Manage your task">
         <CreateTaskModal>
-          <Button>
+          <Button className="bg-[#3D30EF] text-white hover:bg-slate-400">
             <Plus className="mr-2 h-4 w-4" />
               Create Task
           </Button>

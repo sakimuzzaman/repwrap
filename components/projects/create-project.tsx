@@ -98,7 +98,7 @@ export function CreateProject({ children }: CreateProjectProps) {
             Cancel
           </Button>
          
-          <Button className="w-full" type="submit" disabled={isSubmitting}>
+          <Button className="w-full bg-[#3D30EF] text-white hover:bg-slate-400" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Create project..." : "Create project"}
             </Button>
           

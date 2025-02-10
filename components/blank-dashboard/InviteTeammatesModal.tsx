@@ -43,11 +43,13 @@ export function InviteTeammatesModal({ children }: CreateBlankDashboardProps) {
         </div>
         <DialogFooter>
 
-          
-         <Button variant="outline"  size="sm"  onClick={() => setOpen(false)}>
-                            
-                            Send invitation
-            </Button>
+          <div className="flex justify-center">
+            
+               <Button className="bg-[#3D30EF] text-white " variant="outline"  size="sm"  onClick={() => setOpen(false)}>
+                                
+                                Send invitation
+                </Button>
+            </div>
            
           {/* <Button type="submit">Invite Teammates</Button> */}
         </DialogFooter>
