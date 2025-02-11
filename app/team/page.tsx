@@ -49,7 +49,7 @@ export default function TeamPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Team Members</h2>
+        <h2 className="text-2xl font-bold text-[#010136] dark:text-[#FFFFFF]">Team Members</h2>
         {/* <Button>Add Member</Button> */}
       </div>
 
@@ -57,7 +57,7 @@ export default function TeamPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>All Team Members</CardTitle>
+          <CardTitle className="text-[#010136] dark:text-[#FFFFFF]">All Team Members</CardTitle>
           <CardDescription>
             Manage your team members and their roles.
           </CardDescription>
@@ -96,7 +96,7 @@ export default function TeamPage() {
                       year: '2-digit'
                     })}</TableCell>
                   <TableCell>
-                    {new Date(member.last_work_report.created_at).toLocaleDateString('en-GB', {
+                    {new Date(member.last_work_report?.created_at).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: '2-digit',
                       year: '2-digit',
@@ -104,7 +104,7 @@ export default function TeamPage() {
                     })}</TableCell>
                   <TableCell>
 
-                    <Button variant="secondary" className="text-end">Click Here</Button>
+                    <Button variant="secondary" className="text-end text-[#010136] dark:text-[#B8B8B8] ">Click Here</Button>
 
                   </TableCell>
 

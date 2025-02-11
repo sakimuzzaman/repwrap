@@ -93,7 +93,7 @@ export default function OnboardingPage() {
 
           <div className="flex justify-center gap-3">
             <Button
-              className="w-[124px]"
+              className="w-[124px] bg-[#3D30EF]"
               size="lg"
               type="submit"
               disabled={isSubmitting}
@@ -102,7 +102,7 @@ export default function OnboardingPage() {
             </Button>
 
             <Button
-              className="w-[124px] bg-gray-400"
+              className="w-[124px] text-[#010136] bg-white-500"
               size="lg"
               type="button"
               onClick={() => reset()}

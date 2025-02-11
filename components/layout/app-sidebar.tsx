@@ -20,6 +20,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { useEffect, useState } from "react"
+import Image from "next/image"
 
 // routes = [
 //   {
@@ -175,6 +176,13 @@ export function AppSidebar() {
         icon: BarChart2,
         href: "/",
         tooltip: "Dashboard",
+        color: "text-sky-500",
+      },
+      {
+        label: "Profile Page",
+        icon: BarChart2,
+        href: "/profile",
+        tooltip: "profile",
         color: "text-sky-500",
       },
       {
@@ -351,9 +359,16 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
-              <Link href="/" className="flex items-center">
-                <span className="font-semibold text-xl group-data-[collapsible=icon]:hidden">Repwrap</span>
-                <span className="hidden group-data-[collapsible=icon]:block font-semibold text-xl">R</span>
+              <Link href="/" className="flex items-center hover:bg-blue-700">
+                {/* <span className="font-semibold text-white  text-xl group-data-[collapsible=icon]:hidden">Repwrap</span> */}
+                <span className="font-semibold text-white  text-xl group-data-[collapsible=icon]:hidden"><Image 
+                                                                                                              src="/repwrap_logo.png"
+                                                                                                              alt=""
+                                                                                                              height={35}
+                                                                                                              width={150}
+                                                                                                            />
+                </span>
+                <span className="hidden text-white  group-data-[collapsible=icon]:block font-semibold text-xl">R </span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -369,6 +384,8 @@ export function AppSidebar() {
                     asChild
                     isActive={pathname === route.href}
                     tooltip={route.tooltip}
+                    className= "text-white hover:text-white hover:bg-blue-700   rounded-md"
+                   
                   >
                     <Link href={route.href}>
                       <route.icon className={cn("mr-2 h-4 w-4", route.color)} />

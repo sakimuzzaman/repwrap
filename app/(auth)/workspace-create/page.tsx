@@ -62,7 +62,7 @@ export default function OnboardingPage() {
             {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
 
           </div>
-          <Button className="w-full" type="submit" size="lg" disabled={isSubmitting}>
+          <Button className="w-full bg-gradient-to-r from-[#443EFC] to-[#06CBF8] text-white disabled:opacity-50" type="submit" size="lg" disabled={isSubmitting}>
             {isSubmitting ? "Continue..." : "Continue"}
           </Button>
 

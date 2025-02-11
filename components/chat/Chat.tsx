@@ -400,7 +400,7 @@ export default function Chat() {
                     const chatMessages = messages[chatKey] || [];
 
                     return (
-                        <Card key={chatKey} className="min-w-[400px] flex flex-col">
+                        <Card key={chatKey} className="min-w-[400px] flex flex-col shadow-lg">
                             <CardHeader className="bg-gray-100 dark:bg-gray-800 flex-row items-center justify-between py-3">
                                 <div className="flex items-center gap-3">
                                     {chat.image ? (
@@ -439,7 +439,7 @@ export default function Chat() {
                                 {chatMessages.map((message: any, index) => (
                                     <div key={index}>
                                         {message?.files?.length > 0 && (
-                                            <div className={`flex items-center space-x-4 ${message.sender_id === user?.id ? 'justify-end' : 'justify-start'}`}>
+                                            <div className={`flex flex-wrap items-center space-x-4 ${message.sender_id === user?.id ? 'justify-end' : 'justify-start'}`}>
                                                 {message?.files?.map((file: any, index: number) => {
                                                     // ফাইল টাইপ চেক করা (ইমেজ হলে দেখাবে, নাহলে লিংক দেখাবে)
                                                     const isImage = file.type.startsWith("image/");

@@ -50,7 +50,7 @@ export function NewProjectModal({ children }: CreateBlankDashboard2Props) {
 
         <DialogFooter>
           
-         <Button variant="outline"  size="sm"  onClick={() => setOpen(false)}>
+         <Button className="bg-[#3D30EF] text-white " variant="outline"  size="sm"  onClick={() => setOpen(false)}>
                             
                             Create Project
             </Button>

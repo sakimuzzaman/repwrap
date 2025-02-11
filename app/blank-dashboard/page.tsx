@@ -38,10 +38,12 @@ export default function BlankDashboard() {
                      <div className="flex justify-center mt-6 gap-3">
 
                        <InviteTeammatesModal>
-                            <Button variant="outline" size="sm">
+                  
+                            <Button className="bg-[#3D30EF]" variant="outline" size="sm">
                                 <UserPlus className="mr-2 h-4 w-4" />
                                 Invite Teammates
                             </Button>
+                       
                      </InviteTeammatesModal>
                            
                         
@@ -49,10 +51,12 @@ export default function BlankDashboard() {
 
 
                         <NewProjectModal>
-                             <Button variant="outline" size="sm">
+                       
+                             <Button className="bg-[#3D30EF]" variant="outline" size="sm">
                                 <UserPlus className="mr-2 h-4 w-4" />
                                 New Project
                             </Button>
+                      
                       </NewProjectModal>
 
                     </div>

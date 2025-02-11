@@ -13,6 +13,8 @@ import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
 
+import { Facebook } from 'lucide-react';
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("johndoe@example.com");
@@ -55,8 +57,8 @@ export default function LoginPage() {
     <>
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Welcome to Repwrap</CardTitle>
-          <p className="text-center text-muted-foreground">Login to your account</p>
+          <CardTitle className="text-2xl text-center bg-gradient-to-r from-[#443EFC] to-[#06CBF8] bg-clip-text text-transparent">Welcome to Repwrap</CardTitle>
+          <p className="text-center text-[#271654]">Login to your account</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -104,7 +106,7 @@ export default function LoginPage() {
               </div>
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button className="w-full" type="submit" disabled={loading}>
+            <Button className="w-full bg-gradient-to-r from-[#443EFC] to-[#06CBF8] text-white disabled:opacity-50" type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login Now"}
             </Button>
             <div className="relative">
@@ -119,11 +121,11 @@ export default function LoginPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <Button variant="outline">Google</Button>
-              <Button variant="outline">Facebook</Button>
+              <Button variant="outline">  <Facebook className="text-[#1877F2]" /> Facebook</Button>
             </div>
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-md text-[#271654]">
               Don't Have An Account?{" "}
-              <Link href="/signup" className="text-primary hover:underline">
+              <Link href="/signup" className="text-[#588EF5] hover:underline">
                 Signup
               </Link>
             </p>

@@ -6,36 +6,50 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import Image from 'next/image';
+
 const leavesTaken = [
   {
     name: "Izazul Islam",
-    avatar: "/avatars/01.png",
+   // avatar: "/avatars/01.png",
     initials: "II",
+    imageSrc: "/img001.png", 
+    alt: "Izazul Islam's Avatar"
   },
   {
     name: "Izazul Islam",
-    avatar: "/avatars/02.png",
+    //avatar: "/avatars/02.png",
     initials: "II",
+    imageSrc: "/img001.png", 
+    alt: "Izazul Islam's Avatar"
   },
   {
     name: "John Doe",
-    avatar: "/avatars/03.png",
+   // avatar: "/avatars/03.png",
     initials: "JD",
+    imageSrc: "/img001.png", 
+    alt: "Izazul Islam's Avatar"
   },
   {
     name: "Izazul Islam",
-    avatar: "/avatars/04.png",
+   // avatar: "/avatars/04.png",
     initials: "II",
+    imageSrc: "/img001.png", 
+    alt: "Izazul Islam's Avatar"
   },
   {
     name: "Hasan Joy",
-    avatar: "/avatars/05.png",
+   // avatar: "/avatars/05.png",
     initials: "HJ",
+    imageSrc: "/img001.png", 
+    alt: "Izazul Islam's Avatar"
   },
   {
     name: "John Doe",
-    avatar: "/avatars/06.png",
+   // avatar: "/avatars/06.png",
     initials: "JD",
+    imageSrc: "/img001.png", 
+    alt: "Izazul Islam's Avatar"
   },
 ]
 
@@ -55,8 +69,14 @@ export function LeavesTaken() {
           {leavesTaken.map((person, i) => (
             <div key={i} className="flex flex-col items-center gap-2">
               <Avatar className="h-12 w-12">
-                <AvatarImage src={person.avatar} />
-                <AvatarFallback>{person.initials}</AvatarFallback>
+              <Image 
+                  src={person.imageSrc} 
+                  alt={person.name + "'s avatar"}  
+                  width={45} 
+                  height={38} 
+                />
+                {/* <AvatarImage src={person.avatar} /> */}
+                {/* <AvatarFallback>{person.initials}</AvatarFallback> */}
               </Avatar>
               <p className="text-xs text-center">{person.name}</p>
             </div>
