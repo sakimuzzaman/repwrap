@@ -40,15 +40,15 @@ export default function OnboardingPage() {
   return (
     <Card className="w-full max-w-lg mx-auto">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-3xl">Welcome To Repwrap!</CardTitle>
-        <p className="text-muted-foreground">
+        <CardTitle className="text-3xl text-[#010136]">Welcome To Repwrap!</CardTitle>
+        <p className="text-[#010136]">
           You can now create a project
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <h2 className="text-xl font-medium text-center">
+            <h2 className="text-xl text-[#010136] font-medium text-center">
               What Would You Like To Name Your Project?
             </h2>
           
@@ -60,9 +60,12 @@ export default function OnboardingPage() {
             {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
 
           </div>
-          <Button className="w-full" type="submit" size="lg" disabled={isSubmitting}>
-            {isSubmitting ? "Continue..." : "Continue"}
-          </Button>
+
+          <div className="flex justify-center">
+              <Button className=" bg-gradient-to-r from-[#443EFC] to-[#06CBF8] text-white disabled:opacity-50" type="submit" size="lg" disabled={isSubmitting}>
+                {isSubmitting ? "Continue..." : "Continue"}
+              </Button>
+          </div>
 
         </form>
       </CardContent>

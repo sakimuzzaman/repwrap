@@ -110,7 +110,7 @@ export default function LeavesPage() {
                     <TableCell className="capitalize">{leave.status}</TableCell>
                     <TableCell>
                       <LeaveApplicationDetailsModal leaveId={leave.id} userId={leave.user.id} onLeaveApplicationSuccess={onLeaveApplicationSuccess}>
-                        <Button variant="outline" size="sm">View Details</Button>
+                        <Button className="bg-[#45BB65]" variant="outline" size="sm">View Details</Button>
                       </LeaveApplicationDetailsModal>
                     </TableCell>
                   </TableRow>

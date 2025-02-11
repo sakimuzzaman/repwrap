@@ -192,7 +192,7 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
                 Cancel
               </Button>
               <Button
-                className="w-full"
+                className="w-full bg-[#3D30EF] text-white hover:bg-slate-400"
                 type="submit"
                 disabled={isSubmitting}
               >
