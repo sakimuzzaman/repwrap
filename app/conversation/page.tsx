@@ -18,7 +18,7 @@ const LeaveType = () => {
         </CardHeader> */}
 
         <CardContent>
-          <Chat userId={2} />
+          <Chat />
         </CardContent>
 
       </Card>
