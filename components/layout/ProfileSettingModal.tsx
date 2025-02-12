@@ -1,4 +1,5 @@
 
+
 "use client";
 import { useState, useEffect } from "react";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -14,6 +15,7 @@ export function ProfileSettingModal() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     phone: "",
     address: "",
     about_us: "",
@@ -24,16 +26,18 @@ export function ProfileSettingModal() {
     const fetchUserData = async () => {
       try {
         const response = await axiosInstance.get("/me");
-        if (response.data) {
+        if (response.data && response.data.data) {
+          const userData = response.data.data;
           setFormData({
-            name: response.data.name || "",
-            phone: response.data.phone || "",
-            address: response.data.address || "",
-            about_us: response.data.about_us || "",
+            name: userData.name || "",
+            email: userData.email || "",
+            phone: userData.profile_details?.phone || "",
+            address: userData.profile_details?.address || "",
+            about_us: userData.profile_details?.about_us || "",
             image: null,
           });
-          if (response.data.profile_photo) {
-            setImagePreview(response.data.profile_photo);
+          if (userData.profile_details?.profile_photo) {
+            setImagePreview(userData.profile_details.profile_photo);
           }
         }
       } catch (error) {
@@ -59,6 +63,7 @@ export function ProfileSettingModal() {
     try {
       const submissionData = new FormData();
       submissionData.append("name", formData.name);
+      submissionData.append("email", formData.email);
       submissionData.append("phone", formData.phone);
       submissionData.append("address", formData.address);
       submissionData.append("aboutus", formData.about_us);
@@ -97,6 +102,8 @@ export function ProfileSettingModal() {
           </div>
           <Label htmlFor="name">Name</Label>
           <Input id="name" value={formData.name} onChange={handleChange} />
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" value={formData.email} onChange={handleChange} disabled />
           <Label htmlFor="phone">Phone</Label>
           <Input id="phone" type="tel" value={formData.phone} onChange={handleChange} />
           <Label htmlFor="address">Address</Label>
@@ -111,4 +118,3 @@ export function ProfileSettingModal() {
     </Dialog>
   );
 }
-
