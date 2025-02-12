@@ -18,6 +18,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import toast from 'react-hot-toast';
+import { ProfileSettingModal } from "./profileSettingModal"
 
 
 export function Header() {
@@ -83,9 +84,13 @@ export function Header() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                Profile Settings
-              </DropdownMenuItem>
+
+              <ProfileSettingModal>
+                <DropdownMenuItem>
+                  Profile Settings
+                </DropdownMenuItem>
+              </ProfileSettingModal>
+
               <DropdownMenuItem>
                 Support
               </DropdownMenuItem>
