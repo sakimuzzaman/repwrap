@@ -53,7 +53,9 @@ const leavesTaken = [
   },
 ]
 
-export function LeavesTaken() {
+export function LeavesTaken({ yesterday_leaves }: any) {
+  // console.log(yesterday_leaves, 'yesterday_leaves');
+  
   return (
     <Card>
       <CardHeader>
@@ -66,21 +68,42 @@ export function LeavesTaken() {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-4">
-          {leavesTaken.map((person, i) => (
-            <div key={i} className="flex flex-col items-center gap-2">
-              <Avatar className="h-12 w-12">
-              <Image 
-                  src={person.imageSrc} 
-                  alt={person.name + "'s avatar"}  
-                  width={45} 
-                  height={38} 
-                />
-                {/* <AvatarImage src={person.avatar} /> */}
-                {/* <AvatarFallback>{person.initials}</AvatarFallback> */}
-              </Avatar>
-              <p className="text-xs text-center">{person.name}</p>
-            </div>
-          ))}
+          {yesterday_leaves?.map((person:any, i:number) => {
+            // ইউজারের নাম থেকে প্রথম দুটি অক্ষর বের করা
+            const initials = person.name
+              ? person.name
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")
+                .substring(0, 2)
+                .toUpperCase()
+              : "U"; // যদি নাম না থাকে তাহলে "U" দেখাবে
+
+            return (
+              <div key={i} className="flex flex-col items-center gap-2">
+                <Avatar className="h-12 w-12">
+                  {person.imageSrc ? (
+                    <Image
+                      src={person.imageSrc}
+                      alt={`${person.name}'s avatar`}
+                      width={45}
+                      height={38}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <Image
+                      src={`https://ui-avatars.com/api/?name=${initials}&background=random&color=fff`}
+                      alt={person.name}
+                      width={45}
+                      height={38}
+                      className="rounded-full"
+                    />
+                  )}
+                </Avatar>
+                <p className="text-xs text-center">{person.name}</p>
+              </div>
+            );
+          })}
         </div>
       </CardContent>
     </Card>

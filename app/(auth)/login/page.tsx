@@ -45,7 +45,11 @@ export default function LoginPage() {
 
       toast.success('Login successful');
       // Redirect user after successful login
-      router.push("/dashboard");
+      if (user?.role == 'admin') {
+        router.push("/dashboard");
+      } else {
+        router.push("/");
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed. Please try again.");
     } finally {

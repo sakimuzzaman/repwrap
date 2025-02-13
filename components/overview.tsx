@@ -2,38 +2,42 @@
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
-const data = [
-  {
-    name: "Jan",
-    total: 167,
-  },
-  {
-    name: "Feb",
-    total: 145,
-  },
-  {
-    name: "Mar",
-    total: 189,
-  },
-  {
-    name: "Apr",
-    total: 156,
-  },
-  {
-    name: "May",
-    total: 171,
-  },
-  {
-    name: "Jun",
-    total: 190,
-  },
-  {
-    name: "Jul",
-    total: 185,
-  },
-]
+// const data = [
+//   {
+//     name: "Jan",
+//     total: 167,
+//   },
+//   {
+//     name: "Feb",
+//     total: 145,
+//   },
+//   {
+//     name: "Mar",
+//     total: 189,
+//   },
+//   {
+//     name: "Apr",
+//     total: 156,
+//   },
+//   {
+//     name: "May",
+//     total: 171,
+//   },
+//   {
+//     name: "Jun",
+//     total: 190,
+//   },
+//   {
+//     name: "Jul",
+//     total: 185,
+//   },
+// ]
 
-export function Overview() {
+export function Overview({ monthly_work_data }: any) {
+  // console.log(monthly_work_data, '');
+
+  const data = monthly_work_data;
+  
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>
