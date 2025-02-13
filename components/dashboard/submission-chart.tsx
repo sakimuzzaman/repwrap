@@ -8,17 +8,21 @@ import {
 } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
-const data = [
-  { name: 'Monday', submissions: 85 },
-  { name: 'Tuesday', submissions: 90 },
-  { name: 'Wednesday', submissions: 95 },
-  { name: 'Thursday', submissions: 88 },
-  { name: 'Friday', submissions: 92 },
-  { name: 'Saturday', submissions: 85 },
-  { name: 'Sunday', submissions: 89 },
-]
 
-export function SubmissionChart() {
+export function SubmissionChart({ submission_rate_over_week }: any) {
+  // console.log(submission_rate_over_week, 'submission_rate_over_week');
+
+  // const data = [
+  //   { name: 'Monday', submissions: 85 },
+  //   { name: 'Tuesday', submissions: 90 },
+  //   { name: 'Wednesday', submissions: 95 },
+  //   { name: 'Thursday', submissions: 88 },
+  //   { name: 'Friday', submissions: 92 },
+  //   { name: 'Saturday', submissions: 85 },
+  //   { name: 'Sunday', submissions: 89 },
+  // ]
+  const data = submission_rate_over_week;
+
   return (
     <Card>
       <CardHeader>
@@ -32,7 +36,7 @@ export function SubmissionChart() {
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis 
-                dataKey="name" 
+                dataKey="day" 
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 12 }}
@@ -46,7 +50,7 @@ export function SubmissionChart() {
               <Tooltip />
               <Line
                 type="monotone"
-                dataKey="submissions"
+                dataKey="total"
                 stroke="#8884d8"
                 strokeWidth={2}
                 dot={{ r: 4 }}

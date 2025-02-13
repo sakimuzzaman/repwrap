@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { BarChart2, ClipboardList, Users, Calendar, BookOpenCheck, CirclePlus,  UsersRound,  Workflow, Plus, UserPlus,  FilePlus, LayoutDashboard, ClipboardPlus } from 'lucide-react'
+import { BarChart2, ClipboardList, Users, Calendar, BookOpenCheck, CirclePlus, UsersRound, Workflow, Plus, UserPlus, FilePlus, LayoutDashboard, ClipboardPlus } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useSelector } from "react-redux";
 import Cookies from 'js-cookie';
@@ -152,7 +152,7 @@ export function AppSidebar() {
   // const user = useSelector((state: { user: { user: any } }) => state.user.user);
 
   useEffect(() => {
-    setUser(Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null);  
+    setUser(Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null);
   }, [])
 
   let routes = [];
@@ -171,13 +171,13 @@ export function AppSidebar() {
         href: "/dashboard",
         color: "text-sky-500",
       },
-      {
-        label: "Dashboard 2",
-        icon: BarChart2,
-        href: "/",
-        tooltip: "Dashboard",
-        color: "text-sky-500",
-      },
+      // {
+      //   label: "Dashboard 2",
+      //   icon: BarChart2,
+      //   href: "/",
+      //   tooltip: "Dashboard",
+      //   color: "text-sky-500",
+      // },
       {
         label: "Profile Page",
         icon: BarChart2,
@@ -219,19 +219,19 @@ export function AppSidebar() {
         icon: Calendar,
         href: "/leave-type",
         color: "text-pink-500",
-      
+
       },
 
       {
         label: "Team",
-        icon:  UsersRound,
+        icon: UsersRound,
         href: "/team",
         color: "text-orange-500",
       },
 
       {
         label: "Projects",
-        icon:  Workflow,
+        icon: Workflow,
         href: "/projects",
         tooltip: "Projects",
         color: "text-orange-500",
@@ -253,7 +253,7 @@ export function AppSidebar() {
       },
       {
         label: "Workspace Create",
-        icon:  FilePlus,
+        icon: FilePlus,
         href: "/workspace-create",
         tooltip: "Workspace",
         color: "text-orange-500",
@@ -262,23 +262,24 @@ export function AppSidebar() {
   } else {
     routes = [
       {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/",
+        color: "text-sky-500",
+      },
+      {
         label: "Conversation",
         icon: BarChart2,
         href: "/conversation",
         color: "text-sky-500",
       },
-      {
-        label: "Blank Dashboard",
-        icon: BarChart2,
-        href: "/employee-blankdashboard",
-        color: "text-sky-500",
-      },
-      {
-        label: "Dashboard",
-        icon: LayoutDashboard,
-        href: "/employee-dashboard",
-        color: "text-sky-500",
-      },
+      // {
+      //   label: "Blank Dashboard",
+      //   icon: BarChart2,
+      //   href: "/employee-blankdashboard",
+      //   color: "text-sky-500",
+      // },
+
 
       {
         label: "Leave Management",
@@ -286,7 +287,7 @@ export function AppSidebar() {
         href: "/employee-leavemanagement",
         color: "text-sky-500",
       },
-     
+
       {
         label: "Task",
         icon: BookOpenCheck,
@@ -294,9 +295,9 @@ export function AppSidebar() {
         tooltip: "Dashboard",
         color: "text-sky-500",
       },
-      
-     
-     
+
+
+
       {
         label: "Daily Reports",
         icon: ClipboardList,
@@ -309,7 +310,7 @@ export function AppSidebar() {
         href: "/reports/new",
         color: "text-violet-500",
       },
-    
+
 
       {
         label: "Leave Application",
@@ -317,7 +318,7 @@ export function AppSidebar() {
         href: "/employee-leaveapplication",
         color: "text-pink-500",
       },
-    
+
       {
         label: "Employee Team",
         icon: Users,
@@ -359,14 +360,15 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
-              <Link href="/" className="flex items-center hover:bg-blue-700">
+              <Link href="/" className="flex items-center hover:bg-gray-900">
                 {/* <span className="font-semibold text-white  text-xl group-data-[collapsible=icon]:hidden">Repwrap</span> */}
-                <span className="font-semibold text-white  text-xl group-data-[collapsible=icon]:hidden"><Image 
-                                                                                                              src="/repwrap_logo.png"
-                                                                                                              alt=""
-                                                                                                              height={35}
-                                                                                                              width={150}
-                                                                                                            />
+                <span className="font-semibold  text-xl group-data-[collapsible=icon]:hidden">
+                  <Image
+                    src="/repwrap_logo.png"
+                    alt=""
+                    height={35}
+                    width={150}
+                  />
                 </span>
                 <span className="hidden text-white  group-data-[collapsible=icon]:block font-semibold text-xl">R </span>
               </Link>
@@ -384,8 +386,8 @@ export function AppSidebar() {
                     asChild
                     isActive={pathname === route.href}
                     tooltip={route.tooltip}
-                    className= "text-white hover:text-white hover:bg-blue-700   rounded-md"
-                   
+                    className="text-white hover:text-white hover:bg-blue-700   rounded-md"
+
                   >
                     <Link href={route.href}>
                       <route.icon className={cn("mr-2 h-4 w-4", route.color)} />

@@ -40,7 +40,8 @@ const pendingSubmissions = [
   },
 ]
 
-export function PendingSubmissions() {
+export function PendingSubmissions({ yesterday_pending_submissions }: any) {
+  
   return (
     <Card>
       <CardHeader>
@@ -49,27 +50,42 @@ export function PendingSubmissions() {
         </CardTitle>
       </CardHeader>
       <CardContent>
+
         <div className="space-y-4">
-          {pendingSubmissions.map((user) => (
-            <div key={user.name} className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Avatar className="h-8 w-8">
-                <Image 
-                  src={user.imageSrc} 
-                  alt={user.name + "'s avatar"}  
-                  width={32} 
-                  height={32} 
-                />
-                  <AvatarImage src={user.avatar} />
-                  <AvatarFallback>{user.initials}</AvatarFallback>
-                </Avatar>
-                <span className="text-sm font-medium">{user.name}</span>
+          {yesterday_pending_submissions?.map((user: any) => {
+            // ইউজারের নাম থেকে প্রথম দুটি অক্ষর বের করা
+            const initials = user.name
+              ? user.name
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")
+                .substring(0, 2)
+                .toUpperCase()
+              : "U"; // যদি নাম না থাকে তাহলে "U" দেখাবে
+
+            return (
+              <div key={user.id} className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Avatar className="h-8 w-8">
+                    {user.imageSrc ? (
+                      <AvatarImage src={user.imageSrc} alt={`${user.name}'s avatar`} />
+                    ) : (
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${initials}&background=random&color=fff`}
+                        alt={user.name}
+                        className="h-8 w-8 rounded-full"
+                      />
+                    )}
+                    <AvatarFallback>{initials}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium">{user.name}</span>
+                </div>
+                <Button variant="outline" size="sm" className="text-blue-700 border border-blue-700">
+                  View Profile
+                </Button>
               </div>
-              <Button variant="outline" size="sm" className="text-blue-700 border border-blue-700">
-                View Profile
-              </Button>
-            </div>
-          ))}
+            );
+          })}
           <Button variant="ghost" size="sm" className="w-full text-muted-foreground">
             See More
           </Button>

@@ -18,12 +18,22 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import toast from 'react-hot-toast';
-import { ProfileSettingModal } from "./profileSettingModal"
+import { ProfileSettingModal } from "./ProfileSettingModal"
 
 
 export function Header() {
   const [user, setUser] = useState<any>();
   const router = useRouter();
+
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const handleProfileClick = () => {
+    setIsProfileModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsProfileModalOpen(false);
+  };
 
   useEffect(() => {
     let usr = Cookies.get('user');
@@ -85,11 +95,9 @@ export function Header() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              <ProfileSettingModal>
-                <DropdownMenuItem>
-                  Profile Settings
-                </DropdownMenuItem>
-              </ProfileSettingModal>
+              <DropdownMenuItem onClick={handleProfileClick}>
+                Profile Settings
+              </DropdownMenuItem>
 
               <DropdownMenuItem>
                 Support
@@ -100,6 +108,7 @@ export function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>}
+          <ProfileSettingModal openModal={isProfileModalOpen} onClose={handleCloseModal} />
 
         </div>
       </div>
