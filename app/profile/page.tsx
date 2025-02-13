@@ -3,11 +3,29 @@
 import { DatePicker } from "@/components/employee-workreport/DatePicker"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axiosInstance from "@/lib/axios";
 
 
 export default function ProfilePage() {
+    const [authUser, setAuthUser] = useState<any>(null);
 
+    // ✅ Fetch user personal details when modal opens
+    useEffect(() => {
+
+        const fetchUserDetails = async () => {
+            try {
+                const response = await axiosInstance.get("/me");
+
+                setAuthUser(response.data.data);
+
+            } catch (error) {
+            }
+        };
+
+        fetchUserDetails();
+    }, []);
+    console.log(authUser, 'authUser');
 
 
     return (
