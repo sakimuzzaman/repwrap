@@ -6,6 +6,8 @@ import { CalendarView } from "@/components/calendar-view"
 import { Badge } from "@/components/ui/badge"
 import axiosInstance from "@/lib/axios";
 import { useState, useEffect } from "react"
+import Cookies from 'js-cookie';
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState<any>(true);
@@ -17,6 +19,9 @@ export default function DashboardPage() {
   const [last_10_reports, setLast_10_reports] = useState<any>(null);
   const [totalCompletedHours, setTotalCompletedHours] = useState<any>(null);
   const [error, setError] = useState<any>(null);
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+
 
   const fetchDashboardData = async () => {
     try {
@@ -39,8 +44,22 @@ export default function DashboardPage() {
 
   // ✅ API 
   useEffect(() => {
-    fetchDashboardData();
+    let usr: any = Cookies.get('user');
+    usr = usr && JSON.parse(usr);
+    if (!usr) {
+      router.push('/login');
+    }
+    if (usr?.role == 'admin') {
+      router.push('/dashboard');
+    }
+    fetchDashboardData()
+    setUser(usr);
   }, []);
+
+  if (!user) {
+    return
+  }
+
 
   return (
     <div className="p-6 space-y-6">

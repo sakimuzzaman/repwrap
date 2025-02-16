@@ -15,7 +15,7 @@ export default function ProfilePage() {
 
         const fetchUserDetails = async () => {
             try {
-                const response = await axiosInstance.get("/me");
+                const response = await axiosInstance.get("/profile");
 
                 setAuthUser(response.data.data);
 
