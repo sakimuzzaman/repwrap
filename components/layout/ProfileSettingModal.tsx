@@ -44,7 +44,9 @@ export function ProfileSettingModal({ openModal, onClose }:any) {
   // ✅ Fetch user personal details when modal opens
   useEffect(() => {
     const userCookie: any = Cookies.get('user');
-    setAuthUser(JSON.parse(userCookie));
+    if (userCookie) {
+      setAuthUser(JSON.parse(userCookie));
+    }
 
     const fetchUserDetails = async () => {
       try {

@@ -360,23 +360,18 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
-              <Link href="/" className="flex items-center hover:bg-gray-900">
-                {/* <span className="font-semibold text-white  text-xl group-data-[collapsible=icon]:hidden">Repwrap</span> */}
-                <span className="font-semibold  text-xl group-data-[collapsible=icon]:hidden">
-                  <Image
-                    src="/repwrap_logo.png"
-                    alt=""
-                    height={35}
-                    width={150}
-                  />
+              <Link href={`${user?.role === 'admin' ? 'dashboard' : '/'}`} className="flex items-center hover:bg-gray-900">
+                <span className="font-semibold text-xl group-data-[collapsible=icon]:hidden">
+                  <Image src="/repwrap_logo.png" alt="" height={35} width={150} />
                 </span>
-                <span className="hidden text-white  group-data-[collapsible=icon]:block font-semibold text-xl">R </span>
+                <span className="hidden text-white group-data-[collapsible=icon]:block font-semibold text-xl">R</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+
+      <SidebarContent className="flex flex-col h-full">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -386,8 +381,7 @@ export function AppSidebar() {
                     asChild
                     isActive={pathname === route.href}
                     tooltip={route.tooltip}
-                    className="text-white hover:text-white hover:bg-blue-700   rounded-md"
-
+                    className="text-white hover:text-white hover:bg-blue-700 rounded-md"
                   >
                     <Link href={route.href}>
                       <route.icon className={cn("mr-2 h-4 w-4", route.color)} />
@@ -399,9 +393,18 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Meet Logo at the bottom */}
+        <div className="mt-auto p-4 flex justify-center">
+          <a href="https://meet.google.com/" target="_blank" rel="noopener noreferrer">
+            <img src="/meet.png" className="w-16 h-16" alt="Meet Logo" />
+          </a>
+        </div>
       </SidebarContent>
+
       <SidebarRail />
     </Sidebar>
+
   )
 }
 

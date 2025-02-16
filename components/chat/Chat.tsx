@@ -48,7 +48,12 @@ interface ChatMessages {
     [key: string]: Message[]; // Key format: 'user-1' or 'group-3'
 }
 
-const socket: Socket = io("http://localhost:3000", {
+// const socket: Socket = io("http://localhost:3000", {
+//     autoConnect: false
+// });
+
+const socket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+    transports: ["websocket", "polling"],
     autoConnect: false
 });
 
