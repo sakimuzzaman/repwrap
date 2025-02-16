@@ -13,6 +13,8 @@ import { SubmissionChart } from "@/components/dashboard/submission-chart"
 import { ReportsList } from "@/components/dashboard/reports-list"
 import { DashboardLoading } from "../../components/dashboard/loading"
 import { useState, useEffect } from "react"
+import Cookies from 'js-cookie';
+import { useRouter } from "next/navigation";
 
 
 export default function DashboardPage() {
@@ -22,6 +24,8 @@ export default function DashboardPage() {
   const [yesterday_leaves, setYesterday_leaves] = useState<any>(null);
   const [submission_rate_over_week, setSubmission_rate_over_week] = useState<any>(null);
   const [error, setError] = useState<any>(null);
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
   const fetchDashboardData = async () => {
     try {
@@ -39,10 +43,23 @@ export default function DashboardPage() {
     }
   };
 
-  // ✅ API 
   useEffect(() => {
-    fetchDashboardData();
+    let usr:any = Cookies.get('user');
+    usr = usr && JSON.parse(usr);
+    if (!usr) {
+      router.push('/login');
+    }
+    if (usr?.role == 'user') {
+      router.push('/');
+    }
+    fetchDashboardData()
+    setUser(usr);
   }, []);
+
+
+  if (!user) {
+    return
+  }
 
 
   return (
@@ -51,7 +68,7 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-2xl font-semibold text-[#010136] dark:text-[#FFFFFF]">Admin Dashboard</h1>
           <p className="text-sm text-[#010136] dark:text-[#FFFFFF]">
-            12th December, 2024
+            {new Date().toLocaleDateString()}
           </p>
         </div>
         <div className="flex gap-2">

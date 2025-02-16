@@ -100,6 +100,10 @@ export function Header() {
               </DropdownMenuItem>
 
               <DropdownMenuItem>
+                <Link href={'profile'}>My Profile</Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem>
                 Support
               </DropdownMenuItem>
               <DropdownMenuSeparator />
