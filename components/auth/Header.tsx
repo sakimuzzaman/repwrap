@@ -22,9 +22,7 @@ export function Header() {
                 <Logo />
                 <div className="flex items-center justify-end space-x-4">
                     <ThemeToggle />
-                    <Link href="/login">
-                        <Button className="w-full bg-[#fff] text-[#222121] hover:bg-slate-400">Signin</Button>
-                    </Link>
+                   
                 </div>
             </div>
         </header>

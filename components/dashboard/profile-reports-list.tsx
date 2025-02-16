@@ -47,7 +47,7 @@ const reports = [
   // Add more reports with similar structure
 ]
 
-export function ReportsList() {
+export function ProfileReportsList({id}: any) {
   const [expandedId, setExpandedId] = useState<number | null>(1)
 
   const [dailyReports, setDailyReports] = useState<any>([]);
@@ -58,7 +58,7 @@ export function ReportsList() {
     // Make the API call when the component is mounted
     const fetchReports = async () => {
       try {
-        const response = await axiosInstance.get('/admin-daily-work-reports', {
+        const response = await axiosInstance.get(`/profile-work-reports/${id}`, {
           params: {
             search: search || "",  
             date: date || "",      

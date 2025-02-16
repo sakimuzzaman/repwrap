@@ -145,6 +145,13 @@ export default function SignUp() {
               {isSubmitting ? "Signing up..." : "Sign up"}
             </Button>
           </form>
+
+          <div className="mt-4 ">
+            <h4 className="text-center">Have an account?</h4>
+            <Link href="/login">
+              <Button className="w-full bg-[#fff] text-[#222121] hover:bg-slate-400">Signin</Button>
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </>

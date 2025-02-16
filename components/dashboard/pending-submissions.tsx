@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card"
 
 import Image from 'next/image';
+import Link from "next/link";
 
 const pendingSubmissions = [
   {
@@ -80,9 +81,11 @@ export function PendingSubmissions({ yesterday_pending_submissions }: any) {
                   </Avatar>
                   <span className="text-sm font-medium">{user.name}</span>
                 </div>
-                <Button variant="outline" size="sm" className="text-blue-700 border border-blue-700">
-                  View Profile
-                </Button>
+                <Link href={`/profile/${user.id}`}>
+                  <Button variant="outline" size="sm" className="text-blue-700 border border-blue-700">
+                    View Profile
+                  </Button>
+                </Link>
               </div>
             );
           })}

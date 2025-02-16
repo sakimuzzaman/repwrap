@@ -45,6 +45,9 @@ export function Header() {
     setUser(usr);
   }, []);
 
+  console.log(user);
+  
+
   const handleLogout = async () => {
     try {
       // Call the logout API
@@ -79,8 +82,14 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/avatars/01.png" alt="@username" />
-                  <AvatarFallback>JD</AvatarFallback>
+                  <AvatarImage src={user?.profile_details?.profile_photo} alt="@username" />
+                  <AvatarFallback>
+                    {user?.user_details?.name
+                      ?.split(" ")
+                      .map((word: any) => word[0])
+                      .join("")
+                      .toUpperCase() || "AA"}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
