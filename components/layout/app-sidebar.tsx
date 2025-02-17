@@ -8,6 +8,17 @@ import { useSelector } from "react-redux";
 import Cookies from 'js-cookie';
 
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+import { ChevronDown } from 'lucide-react';
+import { ChevronUp } from 'lucide-react';
+
+import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -22,129 +33,6 @@ import {
 import { useEffect, useState } from "react"
 import Image from "next/image"
 
-// routes = [
-//   {
-//     label: "Dashboard",
-//     icon: BarChart2,
-//     href: "/dashboard",
-//     color: "text-sky-500",
-//   },
-//   {
-//     label: "Employee WorkReport",
-//     icon: BarChart2,
-//     href: "/employee-workreport",
-//     color: "text-sky-500",
-//   },
-//   {
-//     label: "Demo Task",
-//     icon: BarChart2,
-//     href: "/demo-task",
-//     color: "text-sky-500",
-//   },
-//   {
-//     label: "Dashboard 2",
-//     icon: BarChart2,
-//     href: "/",
-//     tooltip: "Dashboard",
-//     color: "text-sky-500",
-//   },
-//   {
-//     label: "Task",
-//     icon: BarChart2,
-//     href: "/task",
-//     tooltip: "Dashboard",
-//     color: "text-sky-500",
-//   },
-//   {
-//     label: "EmployeeDashboard",
-//     icon: BarChart2,
-//     href: "/employee-dashboard",
-//     color: "text-sky-500",
-//   },
-//   {
-//     label: "Employee LeaveManagement",
-//     icon: BarChart2,
-//     href: "/employee-leavemanagement",
-//     color: "text-sky-500",
-//   },
-//   {
-//     label: "EmployeeBlankDashboard",
-//     icon: BarChart2,
-//     href: "/employee-blankdashboard",
-//     color: "text-sky-500",
-//   },
-
-//   {
-//     label: "Daily Reports",
-//     icon: ClipboardList,
-//     href: "/reports",
-//     color: "text-violet-500",
-//   },
-//   {
-//     label: "Daily Reports Create",
-//     icon: ClipboardList,
-//     href: "/reports/new",
-//     color: "text-violet-500",
-//   },
-//   {
-//     label: "Leave Management",
-//     icon: Calendar,
-//     href: "/leaves",
-//     color: "text-pink-500",
-//   },
-//   {
-//     label: "Leave Type",
-//     icon: Calendar,
-//     href: "/leave-type",
-//     color: "text-pink-500",
-//   },
-//   {
-//     label: "Employee Leave Application",
-//     icon: Calendar,
-//     href: "/employee-leaveapplication",
-//     color: "text-pink-500",
-//   },
-//   {
-//     label: "Team",
-//     icon: Users,
-//     href: "/team",
-//     color: "text-orange-500",
-//   },
-//   {
-//     label: "Employee Team",
-//     icon: Users,
-//     href: "/employee-team",
-//     color: "text-orange-500",
-//   },
-//   {
-//     label: "Projects",
-//     icon: ClipboardList,
-//     href: "/projects",
-//     tooltip: "Projects",
-//     color: "text-orange-500",
-//   },
-//   {
-//     label: "Workspace Create",
-//     icon: ClipboardList,
-//     href: "/workspace-create",
-//     tooltip: "Workspace",
-//     color: "text-orange-500",
-//   },
-//   {
-//     label: "Project Create",
-//     icon: ClipboardList,
-//     href: "/project-create",
-//     tooltip: "project",
-//     color: "text-orange-500",
-//   },
-//   {
-//     label: "Project Invite",
-//     icon: ClipboardList,
-//     href: "/project-invite",
-//     tooltip: "Projects",
-//     color: "text-orange-500",
-//   },
-// ]
 
 export function AppSidebar() {
   const pathname = usePathname()
@@ -159,15 +47,15 @@ export function AppSidebar() {
 
   if (user?.role === 'admin') {
     routes = [
-      {
-        label: "Conversation",
-        icon: BarChart2,
-        href: "/conversation",
-        color: "text-sky-500",
-      },
+      // {
+      //   label: "Conversation",
+      //   icon: "chats.png",
+      //   href: "/conversation",
+      //   color: "text-sky-500",
+      // },
       {
         label: "Dashboard admin",
-        icon: BarChart2,
+        icon:  "dashboard.png",
         href: "/dashboard",
         color: "text-sky-500",
       },
@@ -178,23 +66,23 @@ export function AppSidebar() {
       //   tooltip: "Dashboard",
       //   color: "text-sky-500",
       // },
-      {
-        label: "Profile Page",
-        icon: BarChart2,
-        href: "/profile",
-        tooltip: "profile",
-        color: "text-sky-500",
-      },
+      // {
+      //   label: "Profile Page",
+      //   icon: "profileIcon.png",
+      //   href: "/profile",
+      //   tooltip: "profile",
+      //   color: "text-sky-500",
+      // },
       {
         label: "Task",
-        icon: BookOpenCheck,
+        icon: "/task.png",
         href: "/task",
         color: "text-sky-500",
       },
 
       {
         label: "Daily Reports",
-        icon: ClipboardList,
+        icon: "reporting.png",
         href: "/reports",
         color: "text-violet-500",
       },
@@ -206,54 +94,74 @@ export function AppSidebar() {
       //   href: "/reports/new",
       //   color: "text-violet-500",
       // },
-
-
       {
-        label: "Leave Management",
-        icon: Calendar,
+        label: "Leaves",
+        icon: "leaves.png",
         href: "/leaves",
         color: "text-pink-500",
-      },
-      {
-        label: "Leave Type",
-        icon: Calendar,
-        href: "/leave-type",
-        color: "text-pink-500",
 
+        submenu: [
+          {
+            label: "Leave Management",
+            icon: "leaves.png",
+            href: "/leaves",
+            color: "text-pink-500",
+          },
+          {
+            label: "Leave Type",
+            icon: "leaves.png",
+            href: "/leave-type",
+            color: "text-pink-500",
+    
+          },
+        ]
       },
+
+      
 
       {
         label: "Team",
-        icon: UsersRound,
+        icon: "teams.png",
         href: "/team",
         color: "text-orange-500",
       },
 
       {
         label: "Projects",
-        icon: Workflow,
+        icon: "projects.png",
         href: "/projects",
         tooltip: "Projects",
         color: "text-orange-500",
+        submenu: [
+          {
+            label: "Projects",
+            icon: "projects.png",
+            href: "/projects",
+            tooltip: "Projects",
+            color: "text-orange-500",
+          },
+          {
+            label: "Project Create",
+            icon: "projects.png",
+            href: "/project-create",
+            tooltip: "project",
+            color: "text-orange-500",
+          },
+          {
+            label: "Project Invite",
+            icon: "projects.png",
+            href: "/project-invite",
+            // tooltip: "Projects",
+            color: "text-orange-500",
+          },
+        ]
       },
 
-      {
-        label: "Project Create",
-        icon: Plus,
-        href: "/project-create",
-        tooltip: "project",
-        color: "text-orange-500",
-      },
-      {
-        label: "Project Invite",
-        icon: UserPlus,
-        href: "/project-invite",
-        tooltip: "Projects",
-        color: "text-orange-500",
-      },
+      
+      
       {
         label: "Workspace Create",
-        icon: FilePlus,
+        icon: "/workspace.png",
         href: "/workspace-create",
         tooltip: "Workspace",
         color: "text-orange-500",
@@ -263,16 +171,16 @@ export function AppSidebar() {
     routes = [
       {
         label: "Dashboard",
-        icon: LayoutDashboard,
+        icon:  "dashboard.png",
         href: "/",
         color: "text-sky-500",
       },
-      {
-        label: "Conversation",
-        icon: BarChart2,
-        href: "/conversation",
-        color: "text-sky-500",
-      },
+      // {
+      //   label: "Conversation",
+      //   icon: "chats.png",
+      //   href: "/conversation",
+      //   color: "text-sky-500",
+      // },
       // {
       //   label: "Blank Dashboard",
       //   icon: BarChart2,
@@ -283,14 +191,14 @@ export function AppSidebar() {
 
       {
         label: "Leave Management",
-        icon: BarChart2,
+        icon: "leaves.png",
         href: "/employee-leavemanagement",
         color: "text-sky-500",
       },
 
       {
         label: "Task",
-        icon: BookOpenCheck,
+        icon: "/task.png",
         href: "/task",
         tooltip: "Dashboard",
         color: "text-sky-500",
@@ -300,29 +208,29 @@ export function AppSidebar() {
 
       {
         label: "Daily Reports",
-        icon: ClipboardList,
+        icon: "reporting.png",
         href: "/reports",
         color: "text-violet-500",
       },
       {
         label: "Daily Reports Create",
-        icon: ClipboardList,
+        icon: "reporting.png",
         href: "/reports/new",
         color: "text-violet-500",
       },
 
 
-      {
-        label: "Leave Application",
-        icon: Calendar,
-        href: "/employee-leaveapplication",
-        color: "text-pink-500",
-      },
+      // {
+      //   label: "Leave Application",
+      //   icon: "leaves.png",
+      //   href: "/employee-leaveapplication",
+      //   color: "text-pink-500",
+      // },
 
       {
-        label: "Employee Team",
-        icon: Users,
-        href: "/employee-team",
+        label: "Team",
+        icon: "teams.png",
+        href: "/team",
         color: "text-orange-500",
       },
 
@@ -359,8 +267,8 @@ export function AppSidebar() {
       <SidebarHeader className="border-b">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild size="lg">
-              <Link href={`${user?.role === 'admin' ? 'dashboard' : '/'}`} className="flex items-center hover:bg-gray-900">
+            <SidebarMenuButton asChild size="lg" className="hover:bg-transparent">
+              <Link href={`${user?.role === 'admin' ? 'dashboard' : '/'}`} className="flex items-center ">
                 <span className="font-semibold text-xl group-data-[collapsible=icon]:hidden">
                   <Image src="/repwrap_logo.png" alt="" height={35} width={150} />
                 </span>
@@ -374,23 +282,63 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col h-full">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {routes.map((route) => (
-                <SidebarMenuItem key={route.href}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === route.href}
-                    tooltip={route.tooltip}
-                    className="text-white hover:text-white hover:bg-blue-700 rounded-md"
-                  >
-                    <Link href={route.href}>
-                      <route.icon className={cn("mr-2 h-4 w-4", route.color)} />
-                      <span className="group-data-[collapsible=icon]:hidden">{route.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+          <SidebarMenu>
+          {routes.map((route) => {
+                // If the route has a submenu, check if it's Projects to render a dropdown
+                if (route.submenu && route.label === "Projects" || route.submenu && route.label === "Leaves") {
+                  return (
+                    <SidebarMenuItem key={route.label} className="text-white">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <div className="flex items-center p-2 hover:bg-blue-700 rounded-md cursor-pointer w-full">
+                            <Image src={`/sidebarIcons/${route.icon}`} alt={route.label} height={24} width={24} />
+                            <span className="group-data-[collapsible=icon]:hidden ml-5">{route.label}</span>
+                            
+                            <div className="ml-28">
+                             {/* <ChevronUp />  */}
+                            <ChevronDown />
+                            </div>
+                          </div>
+
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="bg-blue-700 text-white !w-64">
+                          {route.submenu.map((subitem) => (
+                            <DropdownMenuItem key={subitem.href}>
+                              <Link href={subitem.href}>
+                                <div className="flex items-center w-full">
+                                  <Image src={`/sidebarIcons/${subitem.icon}`} className="bg-blue-700" alt={subitem.label} height={24} width={24} />
+                                  <span className="ml-2">{subitem.label}</span>
+                                </div>
+                              </Link>
+                            </DropdownMenuItem>
+                          ))}
+                           
+                        </DropdownMenuContent>
+                        
+                      </DropdownMenu>
+                      
+                    </SidebarMenuItem>
+                  );
+                }
+          // Render a normal menu item if no submenu exists
+          return (
+           <SidebarMenuItem key={route.href}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === route.href}
+                tooltip={route.tooltip}
+                className={`text-white hover:text-white hover:bg-blue-700 rounded-md 
+                ${pathname === route.href ? "!bg-blue-700 !text-white" : ""}`}
+              >
+                <Link href={route.href}>
+                   <Image src={`/sidebarIcons/${route.icon}`} alt={route.label} height={24} width={24} />
+                  <span className="group-data-[collapsible=icon]:hidden ml-2">{route.label}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+        })}
+      </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 

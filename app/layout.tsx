@@ -12,6 +12,8 @@ import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
+import Link from 'next/link'
+import Image from 'next/image'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -49,7 +51,20 @@ export default function RootLayout({
                 <SidebarInset>
                   <div className="flex flex-col flex-1">
                     {!isAuthPage && <Header />}
-                    <main className="flex-1">{children}</main>
+                    <main className="flex-1">{children}
+                      <div className='fixed bottom-4 right-16 mb-4 z-50'>
+                        <Link href="/conversation">
+                          <Image  
+                            src='/message.png'
+                            width={64}
+                            height={64}
+                            alt='chat icon'
+                            className=''
+                          />
+                        </Link>
+                        
+                      </div>
+                    </main>
                   </div>
                 </SidebarInset>
               </div>

@@ -43,10 +43,7 @@ export function Header() {
     }
     
     setUser(usr);
-  }, []);
-
-  console.log(user);
-  
+  }, []);  
 
   const handleLogout = async () => {
     try {
@@ -109,7 +106,7 @@ export function Header() {
               </DropdownMenuItem>
 
               <DropdownMenuItem>
-                <Link href={'profile'}>My Profile</Link>
+                <Link href={`profile/${user?.id}`}>My Profile</Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem>

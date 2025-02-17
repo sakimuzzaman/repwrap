@@ -11,7 +11,6 @@ import { PlusCircle, UserPlus } from "lucide-react";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { ReportsList } from "@/components/dashboard/reports-list"
 import { useRouter } from "next/navigation";
 import { ProfileReportsList } from "@/components/dashboard/profile-reports-list"
 
