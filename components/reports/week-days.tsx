@@ -49,10 +49,10 @@ export function WeekDays() {
                 <Card key={index} className={`${day.selected ? "bg-primary text-white dark: bg-blue-600 " : ""}`}> 
                     <CardHeader className="flex flex-row items-center px-6 py-4 justify-between space-y-0">
                         <CardTitle className="text-sm font-medium">
-                            <h3 className="hover:underline">
+                            <h3 className="hover:underline text-3xl text-center">
                                 {day.date}
                             </h3>
-                            <p className="hover:underline">
+                            <p className="hover:underline text-xs text-center">
                                 {day.day}
                             </p>
                         </CardTitle>
