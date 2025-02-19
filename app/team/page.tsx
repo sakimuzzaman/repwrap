@@ -1,5 +1,7 @@
 "use client"
 
+
+import ProfileModal from "@/components/team/ProfileModal"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -61,6 +63,11 @@ export default function TeamPage() {
           <CardDescription>
             Manage your team members and their roles.
           </CardDescription>
+
+         <ProfileModal>
+            <Button variant="secondary" className=" w-3/12 text-end text-[#010136] dark:text-[#B8B8B8] bg-green-400 ">User Profile</Button>
+          </ProfileModal>
+        
         </CardHeader>
         <CardContent>
           <Table>
