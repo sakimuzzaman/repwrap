@@ -15,8 +15,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
-import { EditProject } from "./edit-modal"
-import { useState } from "react"
+import { useDispatch } from "react-redux";
+import { openModal } from "@/redux/modalSlice"; // Import actions
 
 
 
@@ -31,15 +31,16 @@ interface ProjectCardProps {
   project: Project
 }
 
+
 export function ProjectCard({ project }: ProjectCardProps) {
-  const [editModal, setEditModal] = useState<any>(false)
+  const dispatch = useDispatch();
+
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
-          <Link href={`/projects/${project.id}`} className="hover:underline">
-            {project.name}
-          </Link>
+          <p>{project.name}</p>
         </CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -48,14 +49,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {/* <DropdownMenuItem>View details</DropdownMenuItem> */}
-             
-                <DropdownMenuItem onClick={() => setEditModal(true)}>Edit project</DropdownMenuItem>
-             
-            {/* <DropdownMenuItem className="text-destructive">
-              Delete project
-            </DropdownMenuItem> */}
+          <DropdownMenuContent align="end">             
+            <DropdownMenuItem onClick={() => dispatch(openModal({ modalType: "projectEdit", id: project?.id }))}>Edit project</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => dispatch(openModal({ modalType: "projectDetails", id: project?.id }))} className="">
+              Details
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>
@@ -63,14 +61,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <CardDescription className="line-clamp-2">
           {project.description}
         </CardDescription>
-        <div className="mt-2">
+        {/* <div className="mt-2">
           <Badge variant={project.status === "completed" ? "secondary" : "default"}>
             {project.status}
           </Badge>
-        </div>
+        </div> */}
       </CardContent>
-
-      {editModal && <EditProject projectId={project.id} />}
     </Card>
   )
 }

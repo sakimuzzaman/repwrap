@@ -17,19 +17,21 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, processOn } from "@/redux/modalSlice"; // Import actions
+import { Textarea } from "../ui/textarea";
 
-interface EditProjectProps {
-  projectId: string; // ID of the project to edit
-}
 
 interface FormData {
   name: string;
   description: string;
 }
 
-export function EditProject({ projectId }: EditProjectProps) {
-  const [open, setOpen] = useState(true);
+export function EditProject() {
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true); // For initial fetch loading
+  const [projectId, setProjectId] = useState<any>(null); // For initial fetch loading
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -41,12 +43,11 @@ export function EditProject({ projectId }: EditProjectProps) {
   const router = useRouter();
 
   // Fetch project details
-  const fetchProjectDetails = async () => {
+  const fetchProjectDetails = async (id: number) => {
     try {
-      const response = await axiosInstance.get(`/projects/${projectId}`);
+      const response = await axiosInstance.get(`/projects/${id}`);
       const { name, description } = response.data.data;
-      console.log(name, description);
-      
+
       setValue("name", name); // Populate form fields
       setValue("description", description);
     } catch (error: any) {
@@ -56,11 +57,7 @@ export function EditProject({ projectId }: EditProjectProps) {
     }
   };
 
-  useEffect(() => {
-    if (open) {
-      fetchProjectDetails(); // Fetch details when modal opens
-    }
-  }, [open]);
+
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -72,12 +69,34 @@ export function EditProject({ projectId }: EditProjectProps) {
       if (response?.data?.code === 200) {
         toast.success(response.data.message);
         setOpen(false);
-        
+        dispatch(processOn("projectEdit"))
+
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong!");
     }
   };
+
+  const { projectEdit } = useSelector((state: any) => state.modal.modals);
+
+  useEffect(() => {
+
+    if (projectEdit && typeof projectEdit == 'number') {
+      setProjectId(projectEdit)
+      fetchProjectDetails(projectEdit);
+      setOpen(true)
+    }
+
+
+  }, [projectEdit])
+
+
+  useEffect(() => {
+    if (!open) {
+      dispatch(closeModal("projectEdit"))
+    }
+  }, [open])
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -105,11 +124,10 @@ export function EditProject({ projectId }: EditProjectProps) {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="description">Project Description</Label>
-                <Input
-                  type="text"
-                  placeholder="Enter your project description"
-                  {...register("description", { required: "Description is required" })}
-                />
+                  <Textarea
+                    placeholder="Enter your project description"
+                    {...register("description", { required: "Description is required" })}
+                  />
                 {errors.description && (
                   <p className="text-sm text-red-600">{errors.description.message}</p>
                 )}
