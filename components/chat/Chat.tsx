@@ -52,9 +52,16 @@ interface ChatMessages {
 //     autoConnect: false
 // });
 
-const socket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+// const socket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+//     transports: ["websocket", "polling"],
+//     autoConnect: false
+// });
+
+const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
     transports: ["websocket", "polling"],
-    autoConnect: false
+    autoConnect: false, 
+    reconnection: true, 
+    reconnectionAttempts: 5, 
 });
 
 export default function Chat() {

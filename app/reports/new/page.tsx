@@ -45,8 +45,11 @@ export default function NewReportPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axiosInstance.get("/projects");
+        const response = await axiosInstance.get("/user/projects");
         setProjects(response.data?.data || []);
+
+        console.log(response.data?.data, "response.data?.data");
+        
       } catch (error) {
         toast.error("Failed to fetch projects");
       }

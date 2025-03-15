@@ -4,74 +4,93 @@ import { useEffect, useState } from "react";
 import { Card, CardHeader } from "@/components/ui/card";
 
 export function WeekDays({ onDateChange }: { onDateChange: (date: string) => void }) {
-    const [lastTenDays, setLastTenDays] = useState<{ day: string; date: string; }[]>([]);
+    const [lastTenDays, setLastTenDays] = useState<{
+        day: string;
+        date: string;
+        fullDate: Date;
+    }[]>([]);
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     function getLastTenDays() {
         const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize time to midnight
         const dayShortNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         const lastTen = [];
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 7; i >= 0; i--) { // Start from 9 days ago to today
             const pastDate = new Date(today);
-            pastDate.setDate(today.getDate() - i); // Subtract `i` days from today
+            pastDate.setDate(today.getDate() - i);
 
             lastTen.push({
                 day: dayShortNames[pastDate.getDay()],
                 date: String(pastDate.getDate()).padStart(2, "0"),
+                fullDate: new Date(pastDate)
             });
         }
-        return lastTen.reverse();
+        return lastTen;
     }
 
     useEffect(() => {
         const data = getLastTenDays();
         setLastTenDays(data);
-        setActiveIndex(9); // Default: latest day (today) active
+        // Set active index to today (last item in the array)
+        setActiveIndex(data.length - 1);
     }, []);
 
     const handleDateChange = (index: number) => {
-        const selectedDate = lastTenDays[index]; // Get the selected date object
-        const today = new Date();
-        const year = today.getFullYear();
+        console.log(lastTenDays, index, 'formattedDate');
 
-        // Ensure the selected date has the correct format YYYY-MM-DD
-        const formattedDate = `${year}-${String(today.getMonth() + 1).padStart(2, "0")}-${selectedDate.date}`;
+        const selectedDate = lastTenDays[index];
+        const fullDate = selectedDate.fullDate;
+        const formattedDate = `${fullDate.getFullYear()}-${String(fullDate.getMonth() + 1).padStart(2, '0')}-${String(fullDate.getDate()).padStart(2, '0')}`;
+        console.log(selectedDate, formattedDate, 'fgf');
 
-        console.log(formattedDate, 'formattedDate'); // Output: YYYY-MM-DD (e.g., 2024-02-19)
+        
 
-        onDateChange(formattedDate); // Pass formatted date to parent
+        onDateChange(formattedDate);
         setActiveIndex(index);
     };
-
 
     return (
         <div>
             <div className="flex justify-between gap-4 mb-4">
-                {lastTenDays.map((day, index) => (
-                    <div
-                        key={index}
-                        onClick={() => handleDateChange(index)}
-                        className="cursor-pointer"
-                    >
-                        <Card
-                            className={`relative rounded-2xl transition-all duration-300 ease-in-out 
-                            transform ${activeIndex === index
-                                    ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-xl"
-                                    : "bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 shadow-2xl hover:scale-105 hover:rotate-0"
-                                }`}
+                {lastTenDays.map((day, index) => {
+                    const isToday = index === lastTenDays.length - 1;
+
+                    return (
+                        <div
+                            key={index}
+                            onClick={() => handleDateChange(index)}
+                            className="cursor-pointer"
                         >
-                            <CardHeader className="flex flex-col items-center px-8 py-4 space-y-2">
-                                <p className={`${activeIndex === index ? "text-white" : "text-gray-600 dark:text-gray-300"} text-lg`}>
-                                    {day.day}
-                                </p>
-                                <h2 className={`${activeIndex === index ? "text-white" : "text-gray-900 dark:text-white"} text-5xl font-bold`}>
-                                    {day.date}
-                                </h2>
-                            </CardHeader>
-                        </Card>
-                    </div>
-                ))}
+                            <Card
+                                className={`relative rounded-2xl transition-all duration-300 ease-in-out 
+                                transform ${activeIndex === index
+                                        ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-xl"
+                                        : "bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 shadow-2xl hover:scale-105"
+                                    }`}
+                            >
+                                <CardHeader className="flex flex-col items-center px-8 py-4 space-y-2">
+                                    <p className={`${activeIndex === index
+                                        ? "text-white"
+                                        : "text-gray-600 dark:text-gray-300"} text-lg`}>
+                                        {day.day}
+                                    </p>
+                                    <h2 className={`${activeIndex === index
+                                        ? "text-white"
+                                        : "text-gray-900 dark:text-white"} text-5xl font-bold`}>
+                                        {day.date}
+                                    </h2>
+                                    {isToday && (
+                                        <span className="absolute top-1 right-1 text-xs font-bold text-blue-500">
+                                            Today
+                                        </span>
+                                    )}
+                                </CardHeader>
+                            </Card>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );

@@ -26,7 +26,12 @@ export default function OnboardingPage() {
 
       if (response?.data?.code == 201) {
         toast.success(response.data.message);
-        router.push('/project-create');
+        const workspace_id = response?.data?.workspace_id;
+        if (workspace_id) {
+          router.push(`/project-create?workspace_id=${workspace_id}`);
+        } else {
+          router.push('/project-create');
+        }
         // Redirect to login page or handle success
       }
 
@@ -41,7 +46,7 @@ export default function OnboardingPage() {
 
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className="w-full max-w-xxl mx-auto">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-3xl">Welcome To Repwrap!</CardTitle>
         <p className="text-muted-foreground">
@@ -62,9 +67,15 @@ export default function OnboardingPage() {
             {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
 
           </div>
-          <Button className="w-full bg-gradient-to-r from-[#443EFC] to-[#06CBF8] text-white disabled:opacity-50" type="submit" size="lg" disabled={isSubmitting}>
-            {isSubmitting ? "Continue..." : "Continue"}
-          </Button>
+          <div className="flex justify-center space-x-4">
+            <Button className="w-full bg-gradient-to-r from-gray-400 to-gray-600 text-white disabled:opacity-50" type="button" size="lg" onClick={() => router.back()} disabled={isSubmitting}>
+              Back
+            </Button>
+           
+            <Button className="w-full bg-gradient-to-r from-[#443EFC] to-[#06CBF8] text-white disabled:opacity-50" type="submit" size="lg" disabled={isSubmitting}>
+              {isSubmitting ? "Continue..." : "Continue"}
+            </Button>
+          </div>
 
         </form>
       </CardContent>

@@ -5,7 +5,7 @@ const initialState = {
         projectEdit: false,
         leave: false,
         projectDetails: false,
-        userCreate: false,
+        taskCard: false,
     },
 };
 

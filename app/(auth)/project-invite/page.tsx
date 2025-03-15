@@ -67,10 +67,10 @@ export default function OnboardingPage() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-xxl mx-auto">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-3xl">
-          Invite Teammates to <br /> your workspace
+          Invite Teammates to your workspace
         </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -104,7 +104,7 @@ export default function OnboardingPage() {
 
             <Link href={'/'}>
               <Button
-                className="w-[124px] text-[#010136] bg-white-500"
+                className="w-[124px] bg-gradient-to-r from-gray-400 to-gray-600 text-white disabled:opacity-50"
                 size="lg"
                 type="button"
 

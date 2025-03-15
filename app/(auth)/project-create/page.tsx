@@ -38,8 +38,9 @@ export default function OnboardingPage() {
 
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className="w-full max-w-xxl mx-auto">
       <CardHeader className="space-y-1 text-center">
+
         <CardTitle className="text-3xl text-[#010136]">Welcome To Repwrap!</CardTitle>
         <p className="text-[#010136]">
           You can now create a project
@@ -62,6 +63,9 @@ export default function OnboardingPage() {
           </div>
 
           <div className="flex justify-center">
+            <Button className="mr-4 bg-gray-500 text-white" type="button" size="lg" onClick={() => router.back()} disabled={isSubmitting}>
+              Back
+            </Button>
               <Button className=" bg-gradient-to-r from-[#443EFC] to-[#06CBF8] text-white disabled:opacity-50" type="submit" size="lg" disabled={isSubmitting}>
                 {isSubmitting ? "Continue..." : "Continue"}
               </Button>

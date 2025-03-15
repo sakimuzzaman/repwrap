@@ -41,7 +41,7 @@ export function AppSidebar() {
 
   useEffect(() => {
     setUser(Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null);
-  }, [])
+  }, [Cookies.get('user')])
 
   let routes = [];
 
@@ -58,6 +58,7 @@ export function AppSidebar() {
         icon:  "dashboard.png",
         href: "/dashboard",
         color: "text-sky-500",
+        className: "w-[24px] h-[25px]"
       },
       // {
       //   label: "Dashboard 2",
@@ -72,12 +73,14 @@ export function AppSidebar() {
       //   href: "/profile",
       //   tooltip: "profile",
       //   color: "text-sky-500",
+      //   className: "w-[24px] h-[25px]"
       // },
       {
         label: "Task",
         icon: "/task.png",
         href: "/task",
         color: "text-sky-500",
+        className: "w-[16px] h-[15px]"
       },
 
       {
@@ -85,6 +88,7 @@ export function AppSidebar() {
         icon: "reporting.png",
         href: "/reports",
         color: "text-violet-500",
+        className: "w-[24px] h-[25px]"
       },
 
 
@@ -100,18 +104,22 @@ export function AppSidebar() {
         href: "/leaves",
         color: "text-pink-500",
 
+
         submenu: [
           {
             label: "Leave Management",
             icon: "leaves.png",
             href: "/leaves",
             color: "text-pink-500",
+            className: "w-[24px] h-[25px]"
+
           },
           {
             label: "Leave Type",
             icon: "leaves.png",
             href: "/leave-type",
             color: "text-pink-500",
+            className: "w-[24px] h-[25px]"
     
           },
         ]
@@ -124,10 +132,11 @@ export function AppSidebar() {
         icon: "teams.png",
         href: "/team",
         color: "text-orange-500",
+        className: "w-[24px] h-[25px]"
       },
 
       {
-        label: "Projects",
+        label: "Project",
         icon: "projects.png",
         href: "/projects",
         tooltip: "Projects",
@@ -139,6 +148,7 @@ export function AppSidebar() {
             href: "/projects",
             tooltip: "Projects",
             color: "text-orange-500",
+            className: "w-[24px] h-[25px]"
           },
           {
             label: "Project Create",
@@ -146,6 +156,7 @@ export function AppSidebar() {
             href: "/project-create",
             tooltip: "project",
             color: "text-orange-500",
+            className: "w-[24px] h-[25px]"
           },
           {
             label: "Project Invite",
@@ -153,6 +164,7 @@ export function AppSidebar() {
             href: "/project-invite",
             // tooltip: "Projects",
             color: "text-orange-500",
+            className: "w-[24px] h-[25px]"
           },
         ]
       },
@@ -165,6 +177,7 @@ export function AppSidebar() {
         href: "/workspace-create",
         tooltip: "Workspace",
         color: "text-orange-500",
+        className: "w-[24px] h-[25px]"
       },
     ]
   } else {
@@ -174,6 +187,7 @@ export function AppSidebar() {
         icon:  "dashboard.png",
         href: "/",
         color: "text-sky-500",
+        className: "w-[24px] h-[25px]"
       },
       // {
       //   label: "Conversation",
@@ -189,12 +203,13 @@ export function AppSidebar() {
       // },
 
 
-      {
-        label: "Leave Management",
-        icon: "leaves.png",
-        href: "/employee-leavemanagement",
-        color: "text-sky-500",
-      },
+      // {
+      //   label: "Leave Management",
+      //   icon: "leaves.png",
+      //   href: "/employee-leavemanagement",
+      //   color: "text-sky-500",
+      //   className: "w-[24px] h-[25px]"
+      // },
 
       {
         label: "Task",
@@ -202,6 +217,7 @@ export function AppSidebar() {
         href: "/task",
         tooltip: "Dashboard",
         color: "text-sky-500",
+        className: "w-[24px] h-[25px]"
       },
 
 
@@ -211,27 +227,39 @@ export function AppSidebar() {
         icon: "reporting.png",
         href: "/reports",
         color: "text-violet-500",
+        className: "w-[24px] h-[25px]"
+      },
+
+      {
+        label: "Daily Auto Reports",
+        icon: "reporting.png",
+        href: "/auto-reports",
+        color: "text-violet-500",
+        className: "w-[24px] h-[25px]"
       },
       {
         label: "Daily Reports Create",
         icon: "reporting.png",
         href: "/reports/new",
         color: "text-violet-500",
+        className: "w-[24px] h-[25px]"
       },
 
 
-      // {
-      //   label: "Leave Application",
-      //   icon: "leaves.png",
-      //   href: "/employee-leaveapplication",
-      //   color: "text-pink-500",
-      // },
+      {
+        label: "Leave Application",
+        icon: "leaves.png",
+        href: "/leave-application",
+        color: "text-pink-500",
+        className: "w-[24px] h-[25px]"
+      },
 
       {
         label: "Team",
         icon: "teams.png",
         href: "/team",
         color: "text-orange-500",
+        className: "w-[24px] h-[25px]"
       },
 
 
@@ -265,7 +293,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b">
-        <SidebarMenu>
+        <SidebarMenu className="lg:ml-4">
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg" className="hover:bg-transparent">
               <Link href={`${user?.role === 'admin' ? 'dashboard' : '/'}`} className="flex items-center ">
@@ -282,31 +310,31 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col h-full">
         <SidebarGroup>
           <SidebarGroupContent>
-          <SidebarMenu>
+          <SidebarMenu className="mx-auto space-y-2 w-48">
           {routes.map((route) => {
                 // If the route has a submenu, check if it's Projects to render a dropdown
-                if (route.submenu && route.label === "Projects" || route.submenu && route.label === "Leaves") {
+                if (route.submenu && route.label === "Project" || route.submenu && route.label === "Leaves") {
                   return (
                     <SidebarMenuItem key={route.label} className="text-white">
-                      <DropdownMenu>
+                      <DropdownMenu >
                         <DropdownMenuTrigger asChild>
                           <div className="flex items-center p-2 hover:bg-blue-700 rounded-md cursor-pointer w-full">
-                            <Image src={`/sidebarIcons/${route.icon}`} alt={route.label} height={24} width={24} />
+                            <Image className={route.className} src={`/sidebarIcons/${route.icon}`} alt={route.label} height={16} width={16} />
                             <span className="group-data-[collapsible=icon]:hidden ml-5">{route.label}</span>
                             
-                            <div className="ml-28">
+                            <div className="ml-24">
                              {/* <ChevronUp />  */}
                             <ChevronDown />
                             </div>
                           </div>
 
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-blue-700 text-white !w-64">
+                        <DropdownMenuContent className="bg-blue-700 text-white !w-48">
                           {route.submenu.map((subitem) => (
-                            <DropdownMenuItem key={subitem.href}>
+                            <DropdownMenuItem key={subitem.href} className="mx-auto w-48">
                               <Link href={subitem.href}>
-                                <div className="flex items-center w-full">
-                                  <Image src={`/sidebarIcons/${subitem.icon}`} className="bg-blue-700" alt={subitem.label} height={24} width={24} />
+                                <div className="flex items-center">
+                                  <Image  src={`/sidebarIcons/${subitem.icon}`} className="bg-blue-700" alt={subitem.label} height={16} width={16} />
                                   <span className="ml-2">{subitem.label}</span>
                                 </div>
                               </Link>
@@ -331,8 +359,8 @@ export function AppSidebar() {
                 ${pathname === route.href ? "!bg-blue-700 !text-white" : ""}`}
               >
                 <Link href={route.href}>
-                   <Image src={`/sidebarIcons/${route.icon}`} alt={route.label} height={24} width={24} />
-                  <span className="group-data-[collapsible=icon]:hidden ml-2">{route.label}</span>
+                   <Image src={`/sidebarIcons/${route.icon}`} alt={route.label} height={16} width={16} />
+                  <span className="group-data-[collapsible=icon]:hidden ml-3">{route.label}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
