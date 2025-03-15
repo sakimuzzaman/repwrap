@@ -24,6 +24,8 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { closeModal, processOn } from "@/redux/modalSlice"; // Import actions
+import { useDispatch, useSelector } from "react-redux";
 
 interface LeaveTypeProps {
   children: React.ReactNode;
@@ -41,6 +43,8 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
   const [open, setOpen] = useState(false);
   const [unit, setUnit] = useState("day");
   const [status, setStatus] = useState("active");
+  const dispatch = useDispatch();
+
 
   const leaveTypes = [
     "sick",
@@ -78,6 +82,8 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
       if (response?.data?.code === 201) {
         toast.success(response.data.message);
         setOpen(false);
+        dispatch(processOn("leave"))
+
         // router.refresh(); // Refresh the page or data after successful creation
       }
     } catch (error: any) {
@@ -188,7 +194,7 @@ export function LeaveTypeModal({ children }: LeaveTypeProps) {
 
           <DialogFooter>
             <div className="flex justify-end gap-4">
-              <Button variant="outline" onClick={() => setOpen(false)}>
+              <Button variant="outline" type="button" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button

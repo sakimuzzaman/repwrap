@@ -22,7 +22,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function ReportsList() {
+export function AutoReportsList() {
   const [expandedId, setExpandedId] = useState<number | null>(1);
   const [dailyReports, setDailyReports] = useState<any>([]);
   const [date, setDate] = useState<any>();
@@ -32,7 +32,7 @@ export function ReportsList() {
     // Fetch reports whenever search or date changes
     const fetchReports = async () => {
       try {
-        const response = await axiosInstance.get('/admin-daily-work-reports', {
+        const response = await axiosInstance.get('/admin-daily-work-auto-reports', {
           params: {
             search: search || "",
             date: date || "", // Passing selected date as a query parameter

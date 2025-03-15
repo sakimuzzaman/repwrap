@@ -4,46 +4,57 @@
 import axiosInstance from "@/lib/axios";
 import { useEffect, useState } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
 
 import LeaveTypeTable from "./LeaveTypeTable";
+import { closeModal, processOn } from "@/redux/modalSlice"; // Import actions
 
 
 const LeaveList = () => {
 
-    const [leaves, setLeaves] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-  
-    const fetchLeaves = async () => {
-      try {
-        const response = await axiosInstance.get("/leaves");
-      
-        setLeaves(response.data?.data || [])
-       // setLeaves(response.data?.data);
-       console.log("Fetched Leaves:", response.data?.data);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-    };
-  
-    useEffect(() => {
-      
-      fetchLeaves();
-    }, []);
-  
-    return (
-      
-      <div> 
+  const [leaves, setLeaves] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
-       <LeaveTypeTable 
-          data={leaves}
-          
-       />
-       
-       </div>
-    
-    );
+  const fetchLeaves = async () => {
+    try {
+      const response = await axiosInstance.get("/leaves");
+
+      setLeaves(response.data?.data || [])
+      // setLeaves(response.data?.data);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    } finally {
+      setLoading(false);
+      dispatch(closeModal('leave'))
+    }
   };
 
-  export default LeaveList;
+  useEffect(() => {
+
+    fetchLeaves();
+  }, []);
+
+  const { leave } = useSelector((state: any) => state.modal.modals);
+  if (leave == 'processOn') {
+    fetchLeaves();
+  }
+
+
+  return (
+
+    <div>
+
+      <LeaveTypeTable
+        data={leaves}
+
+      />
+
+    </div>
+
+  );
+};
+
+export default LeaveList;

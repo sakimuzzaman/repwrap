@@ -1,66 +1,97 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Card, CardHeader } from "@/components/ui/card";
 
+export function WeekDays({ onDateChange }: { onDateChange: (date: string) => void }) {
+    const [lastTenDays, setLastTenDays] = useState<{
+        day: string;
+        date: string;
+        fullDate: Date;
+    }[]>([]);
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-
-
-export function WeekDays() {
-    const [thisWeek, setThisWeek] = useState<{ day: string; date: string; selected: boolean; }[]>([]);
-
-    function getThisWeeksDates() {
+    function getLastTenDays() {
         const today = new Date();
-        const currentDayIndex = today.getDay();
-        const startOfWeek = new Date(today);
-
-        // Adjust to get the start of the week (Sunday)
-        startOfWeek.setDate(today.getDate() - currentDayIndex);
-
-        const weekDates = [];
+        today.setHours(0, 0, 0, 0); // Normalize time to midnight
         const dayShortNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const lastTen = [];
 
-        for (let i = 0; i < 7; i++) {
-            const dayDate = new Date(startOfWeek);
-            dayDate.setDate(startOfWeek.getDate() + i);
+        for (let i = 7; i >= 0; i--) { // Start from 9 days ago to today
+            const pastDate = new Date(today);
+            pastDate.setDate(today.getDate() - i);
 
-            weekDates.push({
-                day: dayShortNames[dayDate.getDay()],
-                date: String(dayDate.getDate()).padStart(2, "0"), // Format date as two digits
-                selected: dayDate.toDateString() === today.toDateString(), // Mark today as selected
+            lastTen.push({
+                day: dayShortNames[pastDate.getDay()],
+                date: String(pastDate.getDate()).padStart(2, "0"),
+                fullDate: new Date(pastDate)
             });
         }
-        return weekDates;
+        return lastTen;
     }
 
     useEffect(() => {
-        setThisWeek(getThisWeeksDates());
+        const data = getLastTenDays();
+        setLastTenDays(data);
+        // Set active index to today (last item in the array)
+        setActiveIndex(data.length - 1);
     }, []);
 
+    const handleDateChange = (index: number) => {
+        console.log(lastTenDays, index, 'formattedDate');
+
+        const selectedDate = lastTenDays[index];
+        const fullDate = selectedDate.fullDate;
+        const formattedDate = `${fullDate.getFullYear()}-${String(fullDate.getMonth() + 1).padStart(2, '0')}-${String(fullDate.getDate()).padStart(2, '0')}`;
+        console.log(selectedDate, formattedDate, 'fgf');
+
+        
+
+        onDateChange(formattedDate);
+        setActiveIndex(index);
+    };
 
     return (
-        <Card className="space-y-2 flex justify-between border-none shadow-none mb-4">
+        <div>
+            <div className="flex justify-between gap-4 mb-4">
+                {lastTenDays.map((day, index) => {
+                    const isToday = index === lastTenDays.length - 1;
 
-            {thisWeek?.map((day, index) => (
-                <Card key={index} className={`${day.selected ? "bg-primary text-white dark: bg-blue-600 " : ""}`}> 
-                    <CardHeader className="flex flex-row items-center px-6 py-4 justify-between space-y-0">
-                        <CardTitle className="text-sm font-medium">
-                            <h3 className="hover:underline text-3xl text-center">
-                                {day.date}
-                            </h3>
-                            <p className="hover:underline text-xs text-center">
-                                {day.day}
-                            </p>
-                        </CardTitle>
-                    </CardHeader>
-                </Card>
-            ))}
-
-        </Card>
-    )
+                    return (
+                        <div
+                            key={index}
+                            onClick={() => handleDateChange(index)}
+                            className="cursor-pointer"
+                        >
+                            <Card
+                                className={`relative rounded-2xl transition-all duration-300 ease-in-out 
+                                transform ${activeIndex === index
+                                        ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-xl"
+                                        : "bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 shadow-2xl hover:scale-105"
+                                    }`}
+                            >
+                                <CardHeader className="flex flex-col items-center px-8 py-4 space-y-2">
+                                    <p className={`${activeIndex === index
+                                        ? "text-white"
+                                        : "text-gray-600 dark:text-gray-300"} text-lg`}>
+                                        {day.day}
+                                    </p>
+                                    <h2 className={`${activeIndex === index
+                                        ? "text-white"
+                                        : "text-gray-900 dark:text-white"} text-5xl font-bold`}>
+                                        {day.date}
+                                    </h2>
+                                    {isToday && (
+                                        <span className="absolute top-1 right-1 text-xs font-bold text-blue-500">
+                                            Today
+                                        </span>
+                                    )}
+                                </CardHeader>
+                            </Card>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
 }
-

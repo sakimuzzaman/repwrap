@@ -1,97 +1,88 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { Search, ChevronDown, ChevronUp } from 'lucide-react';
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { WeekDays } from "../reports/week-days";
-import axiosInstance from "@/lib/axios";
-import Link from "next/link";
-
-import * as React from "react"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-
-import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
+import { Search, ChevronDown, ChevronUp, Paperclip } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { Input } from "@/components/ui/input"
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { WeekDays } from "../reports/week-days"
+import axiosInstance from "@/lib/axios";
+import Image from "next/image"
+import Link from "next/link"
 
-export function ReportsList() {
-  const [expandedId, setExpandedId] = useState<number | null>(1);
+const reports = [
+  {
+    id: 1,
+    name: "Izazul Islam",
+    avatar: "/avatars/01.png",
+    initials: "II",
+    tasksCompleted: 5,
+    hoursWorked: 120,
+    expanded: true,
+    tasks: [
+      {
+        id: 1,
+        title: "Creating Wireframe",
+        project: "Udemia",
+        time: "7 Hour",
+        details: "Landing Pages Between 5 And 10% Doing Pretty Well. We Would Be Pretty Happy With The Landing Page Between 20% And 30%. Great And Best Landing Pages Have A Conversion Rate Of 40% Which Is Free-Kingly Good.",
+        status: "Completed"
+      },
+      {
+        id: 2,
+        title: "Creating Wireframe",
+        project: "Udemia",
+        time: "7 Hour",
+        details: "Landing Pages Between 5 And 10% Doing Pretty Well. We Would Be Pretty Happy With The Landing Page Between 20% And 30%. Great And Best Landing Pages Have A Conversion Rate Of 40% Which Is Free-Kingly Good.",
+        status: "Completed"
+      }
+    ]
+  },
+  // Add more reports with similar structure
+]
+
+export function ProfileReportsList({id}: any) {
+  const [expandedId, setExpandedId] = useState<number | null>(1)
+
   const [dailyReports, setDailyReports] = useState<any>([]);
-  const [date, setDate] = useState<any>();
-  const [search, setSearch] = useState<string>('');
+  const [date, setDate] = useState<any>('');
+  const [search, setSearch] = useState<any>('');
 
   useEffect(() => {
-    // Fetch reports whenever search or date changes
+    // Make the API call when the component is mounted
     const fetchReports = async () => {
       try {
-        const response = await axiosInstance.get('/admin-daily-work-reports', {
+        const response = await axiosInstance.get(`/profile-work-reports/${id}`, {
           params: {
-            search: search || "",
-            date: date || "", // Passing selected date as a query parameter
+            search: search || "",  
+            date: date || "",      
           },
-        });
-
-        setDailyReports(response.data.data); // Store the fetched data in state
+        })
+        setDailyReports(response.data.data); // Store the data in state
       } catch (error) {
         console.error('Error fetching reports:', error);
       }
     };
 
     fetchReports();
-  }, [search, date]); // Re-fetch reports when search or date changes
+  }, [search]);
 
   return (
     <Card>
       <CardHeader>
-        <div className="">
-          <h2 className="text-2xl font-bold mb-3 text-[#010136] dark:text-[#FFFFFF]">Work Report</h2>
-          <div className="flex justify-between items-center">
-            <div>
-              {date ? <p className="text-2xl mb-3">{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                :
-                <p className="text-2xl mb-3">
-                  {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                </p>
-              }
-            </div>
-            <div className="mb-4">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-[280px] justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-          </div>
-
-        </div>
         <div>
-          <WeekDays onDateChange={(date: string) => setDate(date)} />
+          <div>
+            
+          </div>
+          <div></div>
         </div>
+        <WeekDays />
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -110,6 +101,7 @@ export function ReportsList() {
             >
               <div className="flex items-center space-x-4">
                 <Avatar>
+                  {/* <AvatarImage src={report.avatar} /> */}
                   <AvatarFallback>II</AvatarFallback>
                 </Avatar>
                 <div>
@@ -158,12 +150,13 @@ export function ReportsList() {
                         <Link href={task.task_url_link} target="_blank">Open Link</Link>
                       </p>
                     </div>}
+                    
                     <div className="flex gap-2 mt-4">
                       {/* Attachment Section */}
                       <div className="flex gap-2 mt-4 items-center">
                         {task.attachment ? (
                           <Link href={task.attachment} target="_blank">
-                            <img
+                            <Image
                               src={task.attachment}
                               alt="Attachment Preview"
                               width={200}
@@ -176,6 +169,7 @@ export function ReportsList() {
                             <p className="text-center text-white">No Image</p>
                           </div>
                         )}
+                        
                       </div>
                     </div>
                   </div>
@@ -185,7 +179,18 @@ export function ReportsList() {
           </div>
         ))}
         {dailyReports.length == 0 && <p className="text-center">Report Not Found</p>}
+        {/* <div className="flex items-center justify-between pt-4 border-t">
+          <p className="text-sm text-muted-foreground">
+            Showing 1 To 9 Of 20 Entries
+          </p>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm">1</Button>
+            <Button variant="outline" size="sm">2</Button>
+            <Button variant="outline" size="sm">→</Button>
+          </div>
+        </div> */}
       </CardContent>
     </Card>
-  );
+  )
 }
+

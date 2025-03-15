@@ -8,40 +8,41 @@ import {
 } from "@/components/ui/card"
 
 import Image from 'next/image';
+import Link from "next/link";
 
 const pendingSubmissions = [
   {
     name: "Izazul Islam",
     // avatar: "/avatars/01.png",
     initials: "II",
-    imageSrc: "/img001.png", 
+    imageSrc: "/img001.png",
     alt: "Izazul Islam's Avatar"
   },
   {
     name: "Arif Khan",
     avatar: "/avatars/02.png",
     initials: "AK",
-    imageSrc: "/img001.png", 
+    imageSrc: "/img001.png",
     alt: "Izazul Islam's Avatar"
   },
   {
     name: "Shahed Alam",
     avatar: "/avatars/03.png",
     initials: "SA",
-    imageSrc: "/img001.png", 
+    imageSrc: "/img001.png",
     alt: "Izazul Islam's Avatar"
   },
   {
     name: "Sabbir",
     avatar: "/avatars/04.png",
     initials: "S",
-    imageSrc: "/img001.png", 
+    imageSrc: "/img001.png",
     alt: "Izazul Islam's Avatar"
   },
 ]
 
 export function PendingSubmissions({ yesterday_pending_submissions }: any) {
-  
+
   return (
     <Card>
       <CardHeader>
@@ -64,34 +65,41 @@ export function PendingSubmissions({ yesterday_pending_submissions }: any) {
               : "U"; // যদি নাম না থাকে তাহলে "U" দেখাবে
 
             return (
-              <div key={user.id} className="flex items-center justify-between">
+              <div key={user.id} className="flex items-center justify-between cursor-pointer">
                 <div className="flex items-center space-x-4">
-                  <Avatar className="h-8 w-8">
-                    {user.imageSrc ? (
-                      <AvatarImage src={user.imageSrc} alt={`${user.name}'s avatar`} />
-                    ) : (
-                      <img
-                        src={`https://ui-avatars.com/api/?name=${initials}&background=random&color=fff`}
-                        alt={user.name}
-                        className="h-8 w-8 rounded-full"
-                      />
-                    )}
-                    <AvatarFallback>{initials}</AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm font-medium">{user.name}</span>
+                  <Link href={`/profile/${user.id}`} className="flex items-center space-x-2">
+                    <Avatar className="h-8 w-8">
+                      {user.imageSrc ? (
+                        <AvatarImage src={user.imageSrc} alt={`${user.name}'s avatar`} />
+                      ) : (
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${initials}&background=random&color=fff`}
+                          alt={user.name}
+                          className="h-8 w-8 rounded-full"
+                        />
+                      )}
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium">{user.name}</span>
+                  </Link>
                 </div>
-                <Button variant="outline" size="sm" className="text-blue-700 border border-blue-700">
-                  View Profile
-                </Button>
+
+                <Link href={`/profile/${user.id}`}>
+                  <Button variant="outline" size="sm" className="text-blue-700 border border-blue-700">
+                    View Profile
+                  </Button>
+                </Link>
               </div>
             );
           })}
-          <Button variant="ghost" size="sm" className="w-full text-muted-foreground">
-            See More
-          </Button>
+          <Link href={`/team`} className="flex items-center space-x-2">
+            <Button variant="ghost" size="sm" className="w-full text-muted-foreground">
+              See More
+            </Button>
+          </Link>
         </div>
       </CardContent>
-    </Card>
+    </Card >
   )
 }
 

@@ -41,7 +41,7 @@ export function AppSidebar() {
 
   useEffect(() => {
     setUser(Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null);
-  }, [])
+  }, [Cookies.get('user')])
 
   let routes = [];
 
@@ -67,14 +67,14 @@ export function AppSidebar() {
       //   tooltip: "Dashboard",
       //   color: "text-sky-500",
       // },
-      {
-        label: "Profile Page",
-        icon: "profileIcon.png",
-        href: "/profile",
-        tooltip: "profile",
-        color: "text-sky-500",
-        className: "w-[24px] h-[25px]"
-      },
+      // {
+      //   label: "Profile Page",
+      //   icon: "profileIcon.png",
+      //   href: "/profile",
+      //   tooltip: "profile",
+      //   color: "text-sky-500",
+      //   className: "w-[24px] h-[25px]"
+      // },
       {
         label: "Task",
         icon: "/task.png",
@@ -203,13 +203,13 @@ export function AppSidebar() {
       // },
 
 
-      {
-        label: "Leave Management",
-        icon: "leaves.png",
-        href: "/employee-leavemanagement",
-        color: "text-sky-500",
-        className: "w-[24px] h-[25px]"
-      },
+      // {
+      //   label: "Leave Management",
+      //   icon: "leaves.png",
+      //   href: "/employee-leavemanagement",
+      //   color: "text-sky-500",
+      //   className: "w-[24px] h-[25px]"
+      // },
 
       {
         label: "Task",
@@ -229,6 +229,14 @@ export function AppSidebar() {
         color: "text-violet-500",
         className: "w-[24px] h-[25px]"
       },
+
+      {
+        label: "Daily Auto Reports",
+        icon: "reporting.png",
+        href: "/auto-reports",
+        color: "text-violet-500",
+        className: "w-[24px] h-[25px]"
+      },
       {
         label: "Daily Reports Create",
         icon: "reporting.png",
@@ -241,15 +249,15 @@ export function AppSidebar() {
       {
         label: "Leave Application",
         icon: "leaves.png",
-        href: "/employee-leaveapplication",
+        href: "/leave-application",
         color: "text-pink-500",
         className: "w-[24px] h-[25px]"
       },
 
       {
-        label: "Employee Team",
+        label: "Team",
         icon: "teams.png",
-        href: "/employee-team",
+        href: "/team",
         color: "text-orange-500",
         className: "w-[24px] h-[25px]"
       },

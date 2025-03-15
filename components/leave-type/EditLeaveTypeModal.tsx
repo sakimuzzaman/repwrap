@@ -16,11 +16,8 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-
-interface EditLeaveTypeProps {
-  leaveId: Number;
-  
-}
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, processOn } from "@/redux/modalSlice"; // Import actions
 
 interface FormData {
   type: string;
@@ -30,12 +27,16 @@ interface FormData {
   days: string;
 }
 
-export function  EditLeaveTypeModal({ leaveId }: EditLeaveTypeProps) {
-  const [open, setOpen] = useState(true);
+export function  EditLeaveTypeModal() {
+  const [open, setOpen] = useState(false);
   const [unit, setUnit] = useState("day");
   const [status, setStatus] = useState("active");
   const [initialData, setInitialData] = useState<FormData | null>(null);
-   
+  const [dataId, setDataId] = useState<any>(null); // For initial fetch loading
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true); // For initial fetch loading
+
+
   const leaveTypes = [
     "sick",
     "paid",
@@ -59,37 +60,50 @@ export function  EditLeaveTypeModal({ leaveId }: EditLeaveTypeProps) {
   const router = useRouter();
 
   // Fetch leave data for the specific leaveId
+  const fetchItemDetails = async (id: number) => {
+    try {
+      const response = await axiosInstance.get(`/leaves/${id}`);
+      if (response?.data) {
+        setInitialData(response.data.data);
+        setUnit(response.data.data.duration_unit);
+        setStatus(response.data.data.status);
+        // Prepopulate form fields with fetched data
+        setValue("type", response.data.data.type);
+        setValue("days", response.data.data.days);
+        setValue("hours", response.data.data.hours);
+        setValue("status", response.data.data.status);
+
+        //console.log(response.data.data.unit, "asdsada");
+
+      }
+    } catch (error: any) {
+      toast.error("Failed to fetch leave data");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const { leave } = useSelector((state: any) => state.modal.modals);
+
+
   useEffect(() => {
 
-    setOpen(true);
+    if (leave && typeof leave == 'number') {
+      setDataId(leave)
+      fetchItemDetails(leave);
+      setOpen(true)
+    }
 
-    const fetchLeaveType = async () => {
-      try {
-        const response = await axiosInstance.get(`/leaves/${leaveId}`);
-        if (response?.data) {
-          setInitialData(response.data.data);
-          setUnit(response.data.data.duration_unit);
-          setStatus(response.data.data.status);
-          // Prepopulate form fields with fetched data
-          setValue("type", response.data.data.type);
-          setValue("days", response.data.data.days);
-          setValue("hours", response.data.data.hours);
-          setValue("status", response.data.data.status);
+  }, [leave]);
 
-          //console.log(response.data.data.unit, "asdsada");
-        
-        }
-      } catch (error: any) {
-        toast.error("Failed to fetch leave data");
-      }
-    };
-
-    fetchLeaveType();
-  }, [leaveId, setValue]);
+  useEffect(() => {
+    if (!open) {
+      dispatch(closeModal("leave"))
+    }
+  }, [open])
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await axiosInstance.post(`/leaves/${leaveId}/update`, {
+      const response = await axiosInstance.post(`/leaves/${dataId}/update`, {
         type: data.type,
         status: data.status,
         duration_unit: data.unit,
@@ -101,6 +115,8 @@ export function  EditLeaveTypeModal({ leaveId }: EditLeaveTypeProps) {
       if (response?.data?.code === 200) {
         toast.success(response.data.message);
         setOpen(false);
+        dispatch(processOn("leave"))
+
         // router.refresh(); // Refresh the page or data after successful update
       }
     } catch (error: any) {

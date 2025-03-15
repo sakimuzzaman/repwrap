@@ -6,6 +6,7 @@ import * as z from "zod";
 import axiosInstance from "@/lib/axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -39,12 +40,16 @@ const formSchema = z.object({
 export default function NewReportPage() {
   const [projects, setProjects] = useState<{ id: number; name: string }[]>([]);
   const [reports, setReports] = useState([{ id: Date.now(), data: {} }]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axiosInstance.get("/projects");
+        const response = await axiosInstance.get("/user/projects");
         setProjects(response.data?.data || []);
+
+        console.log(response.data?.data, "response.data?.data");
+        
       } catch (error) {
         toast.error("Failed to fetch projects");
       }
@@ -88,6 +93,8 @@ export default function NewReportPage() {
       });
       toast.success("Reports submitted successfully!");
       setReports([{ id: Date.now(), data: {} }]);
+      router.push("/reports");
+
     } catch (error) {
       toast.error("Failed to submit reports!");
     }

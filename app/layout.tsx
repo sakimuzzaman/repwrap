@@ -55,11 +55,11 @@ export default function RootLayout({
                       <div className='fixed bottom-4 right-16 mb-4 z-50'>
                         <Link href="/conversation">
                           <Image  
-                            src='sidebarIcons/chats.png'
+                            src='/message.png'
                             width={64}
                             height={64}
                             alt='chat icon'
-                            className='filter invert-[47%] sepia-[79%] saturate-[2662%] hue-rotate-[87deg] brightness-[96%] contrast-[97%]'
+                            className=''
                           />
                         </Link>
                         

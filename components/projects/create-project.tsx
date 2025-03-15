@@ -17,6 +17,9 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/lib/axios";
 import toast from 'react-hot-toast';
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, processOn } from "@/redux/modalSlice"; // Import actions
+
 
 interface CreateProjectProps {
   children: React.ReactNode
@@ -35,6 +38,7 @@ export function CreateProject({ children }: CreateProjectProps) {
   const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<FormData>();
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: FormData) => {
     
@@ -49,6 +53,8 @@ export function CreateProject({ children }: CreateProjectProps) {
 
       if (response?.data?.code == 201) {
         toast.success(response.data.message);
+        dispatch(processOn("projectEdit"))
+
         setOpen(false)
       }
     } catch (error: any) {

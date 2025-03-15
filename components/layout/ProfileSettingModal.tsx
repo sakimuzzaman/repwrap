@@ -127,19 +127,21 @@ export function ProfileSettingModal({ openModal, onClose }:any) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* ✅ Name */}
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input id="name" {...register("name", { required: "Name is required" })} />
-            {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
-          </div>
+          <div className="flex space-x-4">
+            {/* ✅ Name */}
+            <div className="space-y-2 w-full">
+              <Label htmlFor="name">Full Name</Label>
+              <Input id="name" {...register("name", { required: "Name is required" })} />
+              {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
+            </div>
 
-          {/* ✅ Phone */}
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone</Label>
-            <Input id="phone" {...register("phone", { required: "Phone number is required" })} />
-            {errors.phone && <p className="text-sm text-red-600">{errors.phone.message}</p>}
-          </div>
+            {/* ✅ Phone */}
+            <div className="space-y-2 w-full">
+              <Label htmlFor="phone">Phone</Label>
+              <Input id="phone" {...register("phone", { required: "Phone number is required" })} />
+              {errors.phone && <p className="text-sm text-red-600">{errors.phone.message}</p>}
+            </div>
+         </div>
 
           {/* ✅ Address */}
           <div className="space-y-2">
@@ -160,14 +162,15 @@ export function ProfileSettingModal({ openModal, onClose }:any) {
           {/* ✅ Profile Image Upload & Preview */}
           <div className="space-y-2">
             <Label htmlFor="profile_photo">Profile Image</Label>
+            <Input id="profile_photo" type="file" accept="image/*" {...register("profile_photo")}
+              onChange={handleImageChange}
+            />
             {imagePreview && (
               <div className="flex justify-center">
                 <img src={imagePreview} alt="Profile Preview" className="h-24 w-24 rounded-full border" />
               </div>
             )}
-            <Input id="profile_photo" type="file" accept="image/*" {...register("profile_photo")}
-              onChange={handleImageChange}
-            />
+           
           </div>
 
           <DialogFooter>

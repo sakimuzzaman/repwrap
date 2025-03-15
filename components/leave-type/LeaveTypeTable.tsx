@@ -2,33 +2,24 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "../ui/button";
-import { useState } from "react";
 import { EditLeaveTypeModal } from '../../components/leave-type/EditLeaveTypeModal'
+import { useDispatch } from "react-redux";
+import { openModal } from "@/redux/modalSlice"; // Import actions
+
 
 const LeaveTypeTable = ({ data }: { data: any[] }) => {
-
-  const [editableModal, setEditableModal] = useState<any>(false)
-  const [leaveId, setLeaveId] = useState<any>(null)
-
-  const modalOpen = (id: any) => {
-    setEditableModal(true); // Open the modal
-    setLeaveId(id);
-  }
+  const dispatch = useDispatch();
 
   return (
 
     <div>
-
       <Table>
-
         <TableHeader>
           <TableRow>
             <TableHead>Leave Type</TableHead>
@@ -59,32 +50,24 @@ const LeaveTypeTable = ({ data }: { data: any[] }) => {
               </TableCell>
 
               <TableCell>
-
                 <div className="flex gap-3">
-
                   <Button
                     variant="secondary"
-                    onClick={() => modalOpen(item.id)}
+                    onClick={() => dispatch(openModal({ modalType: "leave", id: item?.id }))}
                   >
                     Edit
                   </Button>
 
-                  <Button variant="secondary">Delete</Button>
+                  {/* <Button variant="secondary">Delete</Button> */}
                 </div>
-
               </TableCell>
-
             </TableRow>
           ))}
 
         </TableBody>
-
       </Table>
-
-      {editableModal && <EditLeaveTypeModal leaveId={leaveId} />}
+      <EditLeaveTypeModal />
     </div>
-
-
   );
 };
 

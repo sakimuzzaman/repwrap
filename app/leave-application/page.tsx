@@ -15,7 +15,7 @@ import { ApprovedRequestTable } from "@/components/leave/ApprovedRequestTable";
 import { LeaveApplicationModal } from "@/components/leave/LeaveApplicationModal";
 import { LeaveApplicationDetailsModal } from "@/components/leave/LeaveApplicationDetails";
 
-const leaveTypes = [
+const cusLeaveTypes = [
   { name: "Sick Leave", days: "7 days", used: "2 days", remaining: "5 days" },
   { name: "Casual Leave", days: "12 days", used: "5 days", remaining: "7 days" },
   { name: "Parental leave", days: "14 days", used: "0 days", remaining: "14 days" },
