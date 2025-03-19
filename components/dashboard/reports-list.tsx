@@ -49,7 +49,7 @@ export function ReportsList() {
   }, [search, date]); // Re-fetch reports when search or date changes
 
   return (
-    <Card>
+    <Card className="w-90%">
       <CardHeader>
         <div className="">
           <h2 className="text-2xl font-bold mb-3 text-[#010136] dark:text-[#FFFFFF]">Work Report</h2>

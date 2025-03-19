@@ -73,16 +73,16 @@ export function WeekDays({ onDateChange }: { onDateChange: (date: string) => voi
                                 <CardHeader className="flex flex-col items-center px-8 py-4 space-y-2">
                                     <p className={`${activeIndex === index
                                         ? "text-white"
-                                        : "text-gray-600 dark:text-gray-300"} text-lg`}>
+                                        : "text-gray-600 dark:text-gray-300"} text-md`}>
                                         {day.day}
                                     </p>
                                     <h2 className={`${activeIndex === index
                                         ? "text-white"
-                                        : "text-gray-900 dark:text-white"} text-5xl font-bold`}>
+                                        : "text-gray-900 dark:text-white"} text-4xl font-bold`}>
                                         {day.date}
                                     </h2>
                                     {isToday && (
-                                        <span className="absolute top-1 right-1 text-xs font-bold text-blue-500">
+                                        <span className="absolute -top-4 text-center p-0.5 px-2 text-xs  bg-white border-2 border-blue-700 rounded-lg text-blue-600">
                                             Today
                                         </span>
                                     )}

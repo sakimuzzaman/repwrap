@@ -53,7 +53,7 @@ export default function RootLayout({
                     {!isAuthPage && <Header />}
                     <main className="flex-1">{children}
                       <div className='fixed bottom-4 right-16 mb-4 z-50'>
-                        <Link href="/conversation">
+                        {/* <Link href="/conversation">
                           <Image  
                             src='/message.png'
                             width={64}
@@ -61,7 +61,7 @@ export default function RootLayout({
                             alt='chat icon'
                             className=''
                           />
-                        </Link>
+                        </Link> */}
                         
                       </div>
                     </main>

@@ -7,13 +7,6 @@ import { cn } from "@/lib/utils"
 import { useSelector } from "react-redux";
 import Cookies from 'js-cookie';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import { ChevronDown } from 'lucide-react';
 import { ChevronUp } from 'lucide-react';
@@ -32,12 +25,26 @@ import {
 } from "@/components/ui/sidebar"
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { boolean } from "yup"
 
 
 export function AppSidebar() {
   const pathname = usePathname()
   const [user, setUser] = useState<any>(null)
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   // const user = useSelector((state: { user: { user: any } }) => state.user.user);
+  
+  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+
+  const toggleMenu = (label: string): void => {
+    setOpenMenus((prev) => {
+      const updatedMenus: Record<string, boolean> = { ...prev };
+      updatedMenus[label] = !updatedMenus[label];
+      return updatedMenus;
+    });
+    setActiveMenu(label);
+  };
+
 
   useEffect(() => {
     setUser(Cookies.get('user') ? JSON.parse(Cookies.get('user') as string) : null);
@@ -100,7 +107,7 @@ export function AppSidebar() {
       // },
       {
         label: "Leaves",
-        icon: "leaves.png",
+        icon: "leave.png",
         href: "/leaves",
         color: "text-pink-500",
 
@@ -108,7 +115,7 @@ export function AppSidebar() {
         submenu: [
           {
             label: "Leave Management",
-            icon: "leaves.png",
+            icon: "verticalLine.png",
             href: "/leaves",
             color: "text-pink-500",
             className: "w-[24px] h-[25px]"
@@ -116,7 +123,7 @@ export function AppSidebar() {
           },
           {
             label: "Leave Type",
-            icon: "leaves.png",
+            icon: "verticalLine.png",
             href: "/leave-type",
             color: "text-pink-500",
             className: "w-[24px] h-[25px]"
@@ -144,7 +151,7 @@ export function AppSidebar() {
         submenu: [
           {
             label: "Projects",
-            icon: "projects.png",
+            icon: "verticalLine.png",
             href: "/projects",
             tooltip: "Projects",
             color: "text-orange-500",
@@ -152,7 +159,7 @@ export function AppSidebar() {
           },
           {
             label: "Project Create",
-            icon: "projects.png",
+            icon: "verticalLine.png",
             href: "/project-create",
             tooltip: "project",
             color: "text-orange-500",
@@ -160,7 +167,7 @@ export function AppSidebar() {
           },
           {
             label: "Project Invite",
-            icon: "projects.png",
+            icon: "verticalLine.png",
             href: "/project-invite",
             // tooltip: "Projects",
             color: "text-orange-500",
@@ -300,7 +307,15 @@ export function AppSidebar() {
                 <span className="font-semibold text-xl group-data-[collapsible=icon]:hidden">
                   <Image src="/repwrap_logo.png" alt="" height={35} width={150} />
                 </span>
-                <span className="hidden text-white group-data-[collapsible=icon]:block font-semibold text-xl">R</span>
+                <span className="hidden text-white group-data-[collapsible=icon]:block font-semibold text-xl">
+                <Image
+                  src="/LogoSymbol.svg"
+                  alt="My Icon"
+                  width={22} 
+                  height={25} 
+                  className=""
+                 />
+                </span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -308,79 +323,122 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="flex flex-col h-full">
-        <SidebarGroup>
-          <SidebarGroupContent>
+      <SidebarGroup>
+        <SidebarGroupContent>
           <SidebarMenu className="mx-auto space-y-2 w-48">
-          {routes.map((route) => {
-                // If the route has a submenu, check if it's Projects to render a dropdown
-                if (route.submenu && route.label === "Project" || route.submenu && route.label === "Leaves") {
-                  return (
-                    <SidebarMenuItem key={route.label} className="text-white">
-                      <DropdownMenu >
-                        <DropdownMenuTrigger asChild>
-                          <div className="flex items-center p-2 hover:bg-blue-700 rounded-md cursor-pointer w-full">
-                            <Image className={route.className} src={`/sidebarIcons/${route.icon}`} alt={route.label} height={16} width={16} />
-                            <span className="group-data-[collapsible=icon]:hidden ml-5">{route.label}</span>
-                            
-                            <div className="ml-24">
-                             {/* <ChevronUp />  */}
-                            <ChevronDown />
-                            </div>
-                          </div>
-
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-blue-700 text-white !w-48">
-                          {route.submenu.map((subitem) => (
-                            <DropdownMenuItem key={subitem.href} className="mx-auto w-48">
-                              <Link href={subitem.href}>
-                                <div className="flex items-center">
-                                  <Image  src={`/sidebarIcons/${subitem.icon}`} className="bg-blue-700" alt={subitem.label} height={16} width={16} />
-                                  <span className="ml-2">{subitem.label}</span>
-                                </div>
-                              </Link>
-                            </DropdownMenuItem>
-                          ))}
-                           
-                        </DropdownMenuContent>
-                        
-                      </DropdownMenu>
-                      
+            {routes.map((route) => {
+              const isOpen = openMenus[route.label];
+              const isActive = activeMenu === route.label;
+              if (route.submenu) {
+                return (
+                  <div key={route.label}>
+                    <SidebarMenuItem className={`text-white cursor-pointer ${isActive ? "bg-blue-700 rounded-md " : ""}`}>
+                      <div
+                        className="flex items-center p-2 hover:bg-blue-700 rounded-md w-full"
+                        onClick={() => toggleMenu(route.label)}
+                      >
+                        <Image
+                          className={route.className}
+                          src={`/sidebarIcons/${route.icon}`}
+                          alt={route.label}
+                          height={16}
+                          width={16}
+                        />
+                        <span className="ml-5">{route.label}</span>
+                        <div className="ml-auto">
+                          {isOpen ? <ChevronUp /> : <ChevronDown />}
+                        </div>
+                      </div>
                     </SidebarMenuItem>
-                  );
-                }
-          // Render a normal menu item if no submenu exists
-          return (
-           <SidebarMenuItem key={route.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={pathname === route.href}
-                tooltip={route.tooltip}
-                className={`text-white hover:text-white hover:bg-blue-700 rounded-md 
-                ${pathname === route.href ? "!bg-blue-700 !text-white" : ""}`}
-              >
-                <Link href={route.href}>
-                   <Image src={`/sidebarIcons/${route.icon}`} alt={route.label} height={16} width={16} />
-                  <span className="group-data-[collapsible=icon]:hidden ml-3">{route.label}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          );
-        })}
-      </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                    {isOpen && (
+                      <div className=" text-white w-48 pl-4">
+                        {route.submenu.map((subitem) => (
+                          <div key={subitem.href} className="py-1">
+                            <Link href={subitem.href}>
+                              <div className="flex items-center p-2 hover:bg-blue-700 rounded-md">
+                                <Image
+                                  src={`/sidebarIcons/${subitem.icon}`}
+                                  alt={subitem.label}
+                                  height={16}
+                                  width={16}
+                                />
+                                <span className="ml-2">{subitem.label}</span>
+                              </div>
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              return (
+                <SidebarMenuItem key={route.href} className={pathname === route.href ? "bg-blue-700 rounded-md " : ""}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === route.href}
+                    tooltip={route.tooltip}
+                    className={`text-white hover:text-white hover:bg-blue-700 rounded-md ${
+                      pathname === route.href ? "!bg-blue-700 !text-white" : ""
+                    }`}
+                    onClick={() => setActiveMenu(route.label)}
+                  >
+                    <Link href={route.href}>
+                      <Image
+                        src={`/sidebarIcons/${route.icon}`}
+                        alt={route.label}
+                        height={16}
+                        width={16}
+                      />
+                      <span className="ml-3">{route.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
 
-        {/* Meet Logo at the bottom */}
-        <div className="mt-auto p-4 flex justify-center">
-          <a href="https://meet.google.com/" target="_blank" rel="noopener noreferrer">
-            <img src="/meet.png" className="w-16 h-16" alt="Meet Logo" />
-          </a>
-        </div>
-      </SidebarContent>
+      {/* Meet Logo at the bottom */}
+
+      <SidebarMenu className="mx-auto mt-24  space-y-2 w-48 list-none">
+      <SidebarMenuItem >
+          <SidebarMenuButton asChild>
+            <Link  href="https://meet.google.com/" target="_blank" rel="noopener noreferrer" className="flex items-center p-2  hover:!bg-blue-700 hover:text-white  rounded-md text-white">
+              <Image src="/meetIcon.png" alt="Meeting" height={16} width={16} />
+              <span className="ml-4">Meeting</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+
+
+        <SidebarMenuItem >
+          <SidebarMenuButton asChild>
+            <Link  href="/conversation" className="flex items-center p-2 hover:!bg-blue-700 hover:text-white rounded-md text-white">
+              <Image src="/messageIcon.png" alt="Messaging" height={16} width={16} />
+              <span className="ml-4">Messaging</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        </SidebarMenu>
+    
+    </SidebarContent>
 
       <SidebarRail />
     </Sidebar>
 
   )
 }
+
+
+{/* <div className="mt-auto p-4 flex justify-center">
+<a href="https://meet.google.com/" target="_blank" rel="noopener noreferrer">
+  <img src="/meetIcon.png" className="w-[24px] h-[25px]" alt="Meet Logo" />
+  <p>Meetings</p>
+</a>
+
+</div> */}
+
+
 

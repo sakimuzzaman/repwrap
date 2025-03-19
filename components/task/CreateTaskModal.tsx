@@ -144,7 +144,7 @@ export function CreateTaskModal({ children }: FromProps) {
               Cancel
             </Button>
 
-            <Button className="w-1/5" type="submit">
+            <Button className="w-1/5 bg-[#3D30EF] hover:bg-[#2B1FED]" type="submit">
               {isSubmitting ? "Create project..." : "Create Task"}
             </Button>
 

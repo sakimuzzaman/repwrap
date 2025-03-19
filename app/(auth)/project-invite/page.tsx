@@ -104,7 +104,8 @@ export default function OnboardingPage() {
 
             <Link href={'/'}>
               <Button
-                className="w-[124px] bg-gradient-to-r from-gray-400 to-gray-600 text-white disabled:opacity-50"
+                variant="secondary"
+                className="w-[124px] bg-gradient-to-r from-gray-100 to-white-200 text-blue-700 disabled:opacity-50"
                 size="lg"
                 type="button"
 

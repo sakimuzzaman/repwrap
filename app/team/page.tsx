@@ -88,7 +88,11 @@ export default function TeamPage() {
                 <TableHead>Name</TableHead>
                 <TableHead>Joined</TableHead>
                 <TableHead>Last submission</TableHead>
-                <TableHead>Action</TableHead>
+                <TableHead>
+                <div className="px-32"> 
+            Action
+          </div>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

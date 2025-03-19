@@ -66,7 +66,7 @@ export function CreateProject({ children }: CreateProjectProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[650px]">
         <DialogHeader>
           <DialogTitle>Create Project</DialogTitle>
           <DialogDescription>
@@ -104,7 +104,7 @@ export function CreateProject({ children }: CreateProjectProps) {
             Cancel
           </Button>
          
-          <Button className="w-full bg-[#3D30EF] text-white hover:bg-slate-400" type="submit" disabled={isSubmitting}>
+          <Button className="w-32 bg-[#3D30EF] text-white hover:bg-slate-400" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Create project..." : "Create project"}
             </Button>
           
