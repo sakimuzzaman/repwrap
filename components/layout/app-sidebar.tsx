@@ -297,9 +297,11 @@ export function AppSidebar() {
     ]
   }
 
+  const isSidebarOpen = useSelector((state:any) => state.button.buttons.sidebarToggle);
+
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b">
+      <SidebarHeader className={`border-b ${isSidebarOpen ? 'py-1 p-0' : 'p-2'}`}>
         <SidebarMenu className="lg:ml-4">
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg" className="hover:bg-transparent">

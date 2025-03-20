@@ -2,6 +2,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import taskReducer from "./taskSlice";
+import buttonReducer from "./buttonSlice";
 import modalReducer from "./modalSlice"; // Import your modal slice
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
         user: userReducer,
         task: taskReducer,
         modal: modalReducer,
+        button: buttonReducer,
     },
 });
 

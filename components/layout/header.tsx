@@ -21,6 +21,8 @@ import toast from 'react-hot-toast';
 import { ProfileSettingModal } from "./ProfileSettingModal"
 import { InviteMemberModal } from "./InviteMemberModal"
 import { assert } from "console"
+import { useDispatch, useSelector } from "react-redux";
+import { toggleButton } from "@/redux/buttonSlice"; // Import actions
 
 
 export function Header() {
@@ -108,10 +110,13 @@ export function Header() {
     }
   }
 
+  const dispatch = useDispatch();
+
+
   return (
     <header className="sticky top-0 z-50 pr-3 w-full border-b bg-background/95 dark:bg-[#1C202B] backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center gap-4">
-        <SidebarTrigger />
+        <SidebarTrigger onClick={() => dispatch(toggleButton({ buttonType: "sidebarToggle" }))}/>
 
         {user && <DropdownMenu>
           <DropdownMenuTrigger asChild>
